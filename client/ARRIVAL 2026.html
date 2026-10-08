@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ARRIVAL 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Limelight&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#150a22;--bg2:#21102f;--gold:#e6c07b;--rose:#e0708f;--teal:#5fd6c8;--ivory:#f6eee0;--mute:#b9a9c8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ivory);font:400 17px/1.65 "Josefin Sans",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{margin:0;font-family:Limelight,Georgia,serif;font-weight:400;color:var(--gold)}
+h3{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:1.2rem;color:var(--ivory)}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;justify-content:space-between;align-items:center;padding:12px 5vw;background:#150a22ee;backdrop-filter:blur(8px);border-bottom:1px solid var(--gold)}
+.logo{font:400 1.5rem Limelight,serif;color:var(--gold);text-decoration:none;letter-spacing:.06em}
+nav{display:flex;gap:4px}
+nav a{padding:6px 14px;color:var(--ivory);text-decoration:none;border-bottom:2px solid transparent}
+nav a:hover,nav a.on{color:var(--gold);border-color:var(--gold)}
+#burger{display:none;background:none;border:1px solid var(--gold);color:var(--gold);font-size:1.3rem;padding:2px 10px}
+@media(max-width:800px){#burger{display:block}nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg2);padding:10px 5vw;border-bottom:1px solid var(--gold)}nav.open{display:flex}}
+.wrap{max-width:1100px;margin:0 auto;padding:44px 5vw 70px}
+.btn{display:inline-block;margin:6px 10px 6px 0;padding:12px 28px;font:600 1rem "Josefin Sans";background:var(--gold);color:#21102f;border:1px solid var(--gold);text-decoration:none;cursor:pointer;border-radius:2px;transition:.2s}
+.btn:hover{background:var(--ivory);transform:translateY(-2px)}
+.btn.alt{background:transparent;color:var(--gold)}.btn.alt:hover{background:var(--gold);color:#21102f}
+/* hero */
+.hero{position:relative;min-height:calc(100vh - 62px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 5vw 150px;overflow:hidden}
+.rays{position:absolute;left:50%;top:46%;width:1500px;height:1500px;margin:-750px 0 0 -750px;background:repeating-conic-gradient(from 0deg,#e6c07b22 0 5deg,transparent 5deg 10deg);-webkit-mask:radial-gradient(circle,#000 8%,transparent 62%);mask:radial-gradient(circle,#000 8%,transparent 62%);animation:spin 180s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.floor{position:absolute;left:-40%;right:-40%;bottom:0;height:170px;background:repeating-linear-gradient(90deg,#5fd6c855 0 1px,transparent 1px 64px),repeating-linear-gradient(0deg,#5fd6c855 0 1px,transparent 1px 34px);transform:perspective(240px) rotateX(60deg);transform-origin:bottom;-webkit-mask:linear-gradient(transparent,#000);mask:linear-gradient(transparent,#000)}
+.hero>*:not(.rays):not(.floor){position:relative;z-index:2}
+.arch{border:1px solid var(--gold);border-radius:260px 260px 0 0;padding:70px 6vw 36px;background:#150a22b0;box-shadow:0 0 60px #e0708f33,inset 0 0 40px #e6c07b18;max-width:760px;width:100%}
+.hero h1{font-size:clamp(3rem,12vw,7.4rem);line-height:1.05;letter-spacing:.08em;text-shadow:0 0 36px #e6c07b66}
+.year{font:300 1.2rem "Josefin Sans";letter-spacing:.5em;color:var(--teal);margin:2px 0 10px}
+.tag{font-size:1.3rem;color:var(--rose);margin:6px 0}
+.hero p{color:var(--mute);max-width:520px;margin:10px auto}
+#count{display:flex;gap:12px;justify-content:center;margin:16px 0}
+#count div{min-width:72px;padding:6px;border:1px solid var(--gold)}#count b{display:block;font:400 1.8rem Limelight;color:var(--gold)}
+.band{overflow:hidden;white-space:nowrap;background:var(--gold);color:#21102f;font:600 .95rem "Josefin Sans";padding:9px 0;position:relative;z-index:3}
+.band span{display:inline-block;padding-left:100%;animation:mq 30s linear infinite}
+@keyframes mq{to{transform:translateX(-100%)}}
+h2{font-size:clamp(1.9rem,5vw,3rem);margin-bottom:6px}
+.rule{height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin:10px 0 26px}
+.panel{background:linear-gradient(160deg,#2a1540,#1a0d2a);border:1px solid #e6c07b55;border-radius:4px;padding:22px}
+.panel.hl{border-color:var(--rose)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:26px 0}
+.stat b{display:block;font:400 2.2rem Limelight;color:var(--gold)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px}
+.card{display:flex;flex-direction:column;gap:8px;transition:.25s}
+.card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 12px 30px #0008}
+.ic{font-size:2rem;line-height:1}
+.chip{display:inline-block;font-size:.82rem;padding:1px 12px;border:1px solid var(--teal);color:var(--teal);border-radius:20px;margin:0 6px 4px 0}
+.chip.r{border-color:var(--rose);color:var(--rose)}
+.card p{margin:0;color:var(--mute);font-size:.98rem}
+.card .go{margin-top:auto}
+.feat{display:grid;grid-template-columns:1.3fr 1fr;gap:26px;align-items:center;margin-bottom:26px}
+@media(max-width:800px){.feat,.two{grid-template-columns:1fr!important}}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.filters button{font:600 .95rem "Josefin Sans";padding:6px 18px;background:transparent;color:var(--ivory);border:1px solid var(--mute);border-radius:20px;cursor:pointer}
+.filters button.on{background:var(--gold);color:#21102f;border-color:var(--gold)}
+ul{padding-left:20px}li{margin:5px 0}
+.tl{border-left:1px solid var(--gold);margin-left:8px}
+.tl .it{position:relative;padding:0 0 26px 26px}
+.tl .it::before{content:"";position:absolute;left:-6px;top:8px;width:11px;height:11px;background:var(--gold);transform:rotate(45deg)}
+.tl small{color:var(--teal)}
+label{display:block;margin:14px 0 4px;color:var(--gold)}
+input,textarea{width:100%;padding:10px 12px;font:400 1rem "Josefin Sans";color:var(--ivory);background:#150a22;border:1px solid var(--mute);border-radius:2px}
+input[type=checkbox]{width:auto;margin-right:10px}
+.pick{display:flex;align-items:center;padding:8px 12px;border:1px solid #e6c07b44;margin:6px 0;cursor:pointer}
+.pick:hover{border-color:var(--gold)}.pick label{margin:0;color:var(--ivory);cursor:pointer;flex:1}
+.err{color:#ff8fa8;min-height:1.3em;font-size:.95rem}
+details{border:1px solid #e6c07b55;padding:10px 16px;margin:10px 0}
+summary{cursor:pointer;color:var(--gold);font-weight:600}
+.ticket{max-width:540px;margin:22px auto;text-align:center;border:1px solid var(--gold);outline:1px solid #e6c07b55;outline-offset:6px;padding:30px;background:linear-gradient(160deg,#2a1540,#150a22)}
+.ticket .id{font:400 2.2rem Limelight;color:var(--gold);letter-spacing:.1em}
+.bar{display:flex;gap:3px;justify-content:center;height:44px;margin:14px 0}.bar i{width:3px;background:var(--ivory)}
+footer{text-align:center;padding:26px 5vw;color:var(--mute);border-top:1px solid var(--gold)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{header,footer,.btn{display:none}}
+</style></head><body>
+<header><a class="logo" href="#/home">ARRIVAL</a><button id="burger" aria-label="Open menu">☰</button>
+<nav id="nav"><a href="#/home" data-p="home">Home</a><a href="#/about" data-p="about">About</a><a href="#/events" data-p="events">Events</a><a href="#/schedule" data-p="schedule">Schedule</a><a href="#/rules" data-p="rules">Rules</a><a href="#/contact" data-p="contact">Contact</a></nav></header>
+<main id="app"></main>
+<footer>ARRIVAL 2026 · Organised by SIAM JUIT · Jaypee University of Information Technology, Solan</footer>
+<script>
+const START=null; // set e.g. '2026-11-20T09:00:00+05:30' to show a countdown on the home page
+const EV=[
+{id:'hackathon',n:'24-Hour Hackathon',i:'💻',c:'Competition',tag:'Where innovation meets endurance',pr:'₹18,000 prize pool',when:'Kicks off at 12 PM, runs 24 hours',v:'To be announced',team:'Developers, designers and innovators',
+ d:['Arrival’s biggest event. A 24-hour marathon that challenges you to turn bold ideas into real-world solutions through creativity, collaboration and cutting-edge technology.','Developers, designers and innovators will brainstorm, build and present impactful projects addressing modern-day challenges.','From intelligent applications and hardware prototypes to AI, IoT and sustainability-focused tech, every challenge pushes your problem-solving, coding and design-thinking skills to the limit.'],
+ r:['Starts at 12 PM and runs for 24 hours','Build and present a project that addresses a modern-day challenge','Software, hardware, AI, IoT and sustainability projects are all in scope']},
+{id:'arcana',n:'Arcana: Mystery Quest',i:'🧭',c:'Competition',tag:'Two days. Cryptic clues. One destination.',when:'Day 1 on Discord, Day 2 final hunt',v:'Discord, then final destination',team:'Teamwork required',
+ d:['An immersive treasure hunt that tests your observation, logic, teamwork and problem-solving. It unfolds across two days.','Day 1 begins on Discord with a series of cryptic clues and puzzles. Every clue brings you a step closer, but every wrong turn can lead you further away.','On Day 2 the challenge intensifies. Apply everything you uncovered and race to the final destination, cracking codes and connecting dots under pressure.'],
+ r:['Day 1 is played on Discord, so join the server before it starts','Work as a team to decode clues and connect hidden links','Day 2 builds on what you uncover on Day 1']},
+{id:'resume',n:'Resume Building Session',i:'📄',c:'Session',tag:'Build a resume that shows your potential',when:'To be announced',v:'To be announced',team:'Individual',
+ d:['A hands-on session on creating a strong, professional and impactful resume.','Learn how to present academic achievements, skills, projects and experience, and how to structure a resume for internships and future opportunities.','The session covers crafting compelling content, highlighting relevant skills, improving formatting and avoiding common mistakes. Perfect whether it is your first resume or a refresh.'],
+ r:['Bring your existing resume if you have one','Open to beginners and experienced students']},
+{id:'speaker',n:'Speaker Session',i:'🎤',c:'Session',tag:'Stories and insights from the Arrival stage',when:'To be announced',v:'To be announced',team:'Open to all',
+ d:['Accomplished professionals and inspiring personalities share their experiences, insights and expertise on the Arrival stage.','Gain perspectives on careers, creativity, technology, entrepreneurship and personal growth.','Speakers share lessons from their journeys and the challenges they overcame, to inspire you to explore new possibilities and shape your own path.'],
+ r:['Be seated before the session begins','Keep phones silent during talks']},
+{id:'jamming',n:'Jamming Night',i:'🎸',c:'Culture',tag:'Music, friends and the night sky',when:'Evening, late night',v:'Open Cafeteria',team:'Solo or bands, or just come to listen',
+ d:['A lively musical evening that brings students together for music, creativity and spontaneous performances.','The Open Cafeteria becomes a vibrant late-night gathering where you can sing, play instruments and share your love for music.','Perform on stage or simply enjoy the music with friends. It is all about unwinding, connecting and unforgettable moments under the night sky.'],
+ r:['Performers should bring their own instruments','Keep it friendly and respectful to every act']},
+{id:'minecraft',n:'Minecraft: The Road to the End',i:'⛏️',c:'Competition',tag:'Survive every stage to reach The End',when:'To be announced',v:'To be announced',team:'Teams of two',min:2,max:2,
+ d:['A team-based competition inspired by Minecraft’s journey from the Overworld to the Nether and finally The End. It blends knowledge, strategy, speed, decision-making and PvP.','Teams of two battle through three intense rounds.','Build your HP through challenging quiz stages, outsmart opponents in strategic head-to-head battles, then race to complete 20 advertising and slogan questions in the final challenge.'],
+ r:['Teams of exactly two','Three rounds: quiz stages, strategic PvP battles, final question race','Final round has 20 advertising and slogan questions','The team that survives every stage wins']},
+{id:'neon',n:'Neon Protocol',i:'🌐',c:'Competition',tag:'The retro-futuristic web design challenge',when:'To be announced',v:'To be announced',team:'Individual or team',
+ d:['A retro-futuristic web design competition organised as part of Arrival 2026 by SIAM JUIT.','A generator assigns a random topic and theme at the start. Design a functional, visually cohesive website within the stipulated deadline.','The event tests design thinking, adaptability and delivery under time constraints.'],
+ r:['Topic and theme are assigned by a random generator at the start','Submit a functional, visually cohesive website before the deadline','Judged on creativity, adherence to the brief, UI/UX quality, responsiveness and timely completion']},
+{id:'phoenix',n:'Phoenix Cup',i:'🔥',c:'Competition',tag:'Rise. Survive. Conquer.',when:'To be announced',v:'The arena',team:'Individual players',
+ d:['An intense survival-style competition inspired by Squid Game and Alice in Borderland.','Face thrilling challenges, from Red Light, Green Light and Cup Pyramid to Dodgeball and unexpected mind games.','Every round tests speed, strategy, reflexes, courage and the ability to survive under pressure. Players will fall and challenges will get harder. One arena, multiple struggles, one champion.'],
+ r:['Rounds include Red Light Green Light, Cup Pyramid and Dodgeball','Expect surprise mind-game rounds','Follow the game masters’ instructions at all times']}];
+const $=s=>document.querySelector(s),app=$('#app');let reg=null,filter='All';
+const chips=e=>`<span class="chip">${e.c}</span>${e.pr?`<span class="chip r">${e.pr}</span>`:''}`;
+const card=e=>`<article class="panel card"><span class="ic" aria-hidden="true">${e.i}</span><div>${chips(e)}</div><h3>${e.n}</h3><p>${e.tag}</p><p>${e.d[0].slice(0,120)}…</p><div class="go"><a class="btn alt" href="#/event/${e.id}">View details</a><a class="btn" href="#/register/${e.id}">Register</a></div></article>`;
+const P={
+home(){const h=EV[0];return `<section class="hero"><div class="rays"></div><div class="floor"></div><div class="arch"><h1>ARRIVAL</h1><div class="year">2026</div><div class="tag">Rise. Build. Arrive.</div><p>A fest of code, quests, music and games by SIAM JUIT. Eight events, one stage, and your name on the list.</p><div id="count"></div><a class="btn" href="#/register">Register now</a><a class="btn alt" href="#/events">Explore events</a></div></section>
+<div class="band"><span>◆ 24-hour hackathon ◆ ₹18,000 prize pool ◆ Mystery quest on Discord ◆ Minecraft showdown ◆ Neon Protocol web design ◆ Phoenix Cup ◆ Jamming Night ◆ Speaker and resume sessions ◆</span></div>
+<div class="wrap"><h2>The main event</h2><div class="rule"></div><div class="feat panel hl"><div><span class="ic">${h.i}</span><h2 style="font-size:2rem;margin:8px 0">${h.n}</h2><p>${h.d[0]}</p><a class="btn" href="#/event/hackathon">See details</a></div><div><div class="stat"><b>24</b>hours of building</div><div class="stat" style="margin-top:12px"><b>₹18,000</b>prize pool</div><div class="stat" style="margin-top:12px"><b>12 PM</b>kick-off</div></div></div>
+<h2 style="margin-top:44px">More to explore</h2><div class="rule"></div><div class="cards">${EV.slice(1,4).map(card).join('')}</div><p><a class="btn alt" href="#/events">All 8 events</a></p></div>`},
+about(){return `<div class="wrap"><h2>About ARRIVAL</h2><div class="rule"></div><div class="two"><div class="panel"><h3>The story</h3><p>Arrival is the moment something new lands and everything changes. Our fest takes that idea and turns it into three kinds of arrival: ideas becoming products in the hackathon, mysteries unfolding across the treasure hunt, and people finding their stage at Jamming Night.</p></div><div class="panel"><h3>Objectives</h3><ul><li>Give students a stage to build and ship real ideas</li><li>Reward creativity, strategy and teamwork</li><li>Bring professionals to campus for career insight</li><li>Create unforgettable nights for the whole community</li></ul></div></div>
+<div class="stats"><div class="panel stat"><b>8</b>events</div><div class="panel stat"><b>24h</b>hackathon</div><div class="panel stat"><b>₹18K</b>prize pool</div><div class="panel stat"><b>2</b>days of quest</div></div>
+<div class="panel"><h3>Organising team</h3><p>ARRIVAL 2026 is organised by SIAM JUIT at the Jaypee University of Information Technology, Solan. Student coordinators lead every event, supported by design, technical, hospitality and logistics teams.</p></div></div>`},
+events(){return `<div class="wrap"><h2>Events</h2><div class="rule"></div><div class="filters">${['All','Competition','Session','Culture'].map(c=>`<button class="${c===filter?'on':''}" data-f="${c}">${c}</button>`).join('')}</div><input id="q" placeholder="Search events" aria-label="Search events" style="margin-bottom:22px"><div class="cards" id="list"></div></div>`},
+event(id){const e=EV.find(x=>x.id===id);if(!e)return P.events();return `<div class="wrap"><a href="#/events">← All events</a><div style="margin-top:14px"><span class="ic">${e.i}</span></div><h2>${e.n}</h2><p style="color:var(--rose);font-size:1.2rem;margin:0">${e.tag}</p><div class="rule"></div><div class="two"><div>${e.d.map(p=>`<p>${p}</p>`).join('')}<h3 style="margin-top:20px">Rules and guidelines</h3><ul>${e.r.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="panel"><h3>Event details</h3><p><b>When:</b> ${e.when}<br><b>Venue:</b> ${e.v}<br><b>Team:</b> ${e.team}<br><b>Eligibility:</b> Students of JUIT and invited colleges</p><h3>Prizes</h3><p>${e.pr||'Certificates and recognition for participants'}</p><a class="btn" href="#/register/${e.id}">Register now</a></div></div></div>`},
+schedule(){return `<div class="wrap"><h2>Schedule</h2><div class="rule"></div><p style="color:var(--mute)">Exact dates and timings will be confirmed here. What we know so far:</p><div class="tl">${EV.map(e=>`<div class="it"><small>${e.when}</small><h3>${e.i} ${e.n}</h3><p style="margin:0;color:var(--mute)">Venue: ${e.v}</p></div>`).join('')}</div></div>`},
+register(id){return `<div class="wrap"><h2>Register</h2><div class="rule"></div><form class="panel" id="f" novalidate><h3>Choose your events</h3>${EV.map(e=>`<div class="pick"><input type="checkbox" id="c-${e.id}" value="${e.id}" ${e.id===id?'checked':''}><label for="c-${e.id}">${e.i} ${e.n} <small style="color:var(--mute)">· ${e.team}</small></label></div>`).join('')}<div class="err" id="e-ev"></div>
+<label for="tn">Team name (optional)</label><input id="tn"><label for="nm">Full name</label><input id="nm" autocomplete="name"><div class="err" id="e-nm"></div><label for="em">Email</label><input id="em" type="email" autocomplete="email"><div class="err" id="e-em"></div><label for="ph">Phone</label><input id="ph" type="tel" autocomplete="tel"><div class="err" id="e-ph"></div><label for="cl">College and enrollment number</label><input id="cl"><label for="mb">Other team members (one per line)</label><textarea id="mb" rows="3"></textarea><div class="err" id="e-mb"></div><button class="btn" type="submit">Submit registration</button></form></div>`},
+confirm(){if(!reg)return `<div class="wrap"><h2>No registration yet</h2><p>Choose your events and fill in the form to get your pass.</p><a class="btn" href="#/register">Register now</a></div>`;const bars=[...reg.id].map((c,i)=>`<i style="height:${18+(c.charCodeAt(0)*7+i*13)%26}px"></i>`).join('').repeat(3);return `<div class="wrap"><h2 style="text-align:center">You are in</h2><div class="ticket"><p>Pass for ${reg.name}</p><div class="id">${reg.id}</div><div class="bar">${bars}</div><h3>Registered events</h3><p>${reg.evs.map(e=>e.i+' '+e.n).join('<br>')}</p><small style="color:var(--mute)">Confirmation will be sent to ${reg.email}. Show this ID at check-in.</small></div><p style="text-align:center"><button class="btn alt" onclick="print()">Print pass</button><a class="btn" href="#/events">Browse events</a></p></div>`},
+rules(){return `<div class="wrap"><h2>Rules</h2><div class="rule"></div><div class="two"><div class="panel"><h3>General rules</h3><ul><li>Carry your college ID at all times</li><li>Be at the venue before the event starts</li><li>Respect organisers, judges and fellow participants</li><li>Judges’ decisions are final</li></ul></div><div class="panel"><h3>Guidelines and restrictions</h3><ul><li>No plagiarism or unfair means in any competition</li><li>No damage to venue property</li><li>Organisers may disqualify anyone who breaks the rules</li></ul></div></div><h3 style="margin:28px 0 6px">Individual event rules</h3>${EV.map(e=>`<details><summary>${e.i} ${e.n}</summary><ul>${e.r.map(x=>`<li>${x}</li>`).join('')}</ul></details>`).join('')}<h2 style="margin-top:36px;font-size:2rem">FAQs</h2><div class="rule"></div>${[['Can I join more than one event?','Yes, as long as timings do not clash. Check the schedule page.'],['Is the Minecraft event solo?','No. It is for teams of exactly two.'],['How does the treasure hunt start?','Day 1 runs on Discord, so be ready to join the server.'],['When is the hackathon?','It kicks off at 12 PM and runs for 24 hours. The date will be announced.']].map(q=>`<details><summary>${q[0]}</summary><p>${q[1]}</p></details>`).join('')}</div>`},
+contact(){return `<div class="wrap"><h2>Contact</h2><div class="rule"></div><div class="panel"><h3>Venue</h3><p>Jaypee University of Information Technology<br>Waknaghat, Solan, Himachal Pradesh</p><p>Jamming Night is held at the Open Cafeteria. Other venues are listed on each event page.</p></div><form class="panel" id="msg" style="margin-top:22px"><h3>Send a message</h3><label for="mm">Your question</label><textarea id="mm" rows="3"></textarea><button class="btn" type="submit">Send message</button><div id="mok" role="status"></div></form></div>`}};
+function tick(){const el=$('#count');if(!el||!START)return;const s=Math.max(0,(new Date(START)-Date.now())/1000|0);el.innerHTML=[[s/86400|0,'days'],[s%86400/3600|0,'hrs'],[s%3600/60|0,'min'],[s%60,'sec']].map(x=>`<div><b>${String(x[0]).padStart(2,'0')}</b>${x[1]}</div>`).join('')}
+function list(){const q=($('#q')?.value||'').toLowerCase();const l=EV.filter(e=>(filter==='All'||e.c===filter)&&(e.n+e.tag+e.d.join()).toLowerCase().includes(q));$('#list').innerHTML=l.length?l.map(card).join(''):'<p>No events match. Try another filter.</p>'}
+function route(){const [p,a]=(location.hash.slice(2)||'home').split('/');const pg=P[p]?p:'home';app.innerHTML=P[pg](a);document.querySelectorAll('nav a').forEach(x=>x.classList.toggle('on',x.dataset.p===pg||(pg==='event'&&x.dataset.p==='events')));$('#nav').classList.remove('open');scrollTo(0,0);document.title='ARRIVAL 2026 · '+pg;
+if(pg==='home')tick();if(pg==='events')list();if(pg==='register')$('#f').onsubmit=submit;
+if(pg==='contact')$('#msg').onsubmit=e=>{e.preventDefault();$('#mok').textContent=$('#mm').value.trim()?'Message sent. The team will reply by email.':'Write a message first.'}}
+function submit(e){e.preventDefault();const g=i=>$('#'+i).value.trim(),er=(i,m)=>{$('#e-'+i).textContent=m;return !m};
+const evs=EV.filter(x=>$('#c-'+x.id).checked);let ok=true;
+ok&=er('ev',evs.length?'':'Choose at least one event.');ok&=er('nm',g('nm').length>2?'':'Enter your full name.');ok&=er('em',/^\S+@\S+\.\S+$/.test(g('em'))?'':'Enter a valid email.');ok&=er('ph',/^\d{10}$/.test(g('ph').replace(/\D/g,''))?'':'Enter a 10-digit phone number.');
+const mem=g('mb').split('\n').filter(x=>x.trim()).length;
+ok&=er('mb',evs.some(x=>x.id==='minecraft')&&mem!==1?'Minecraft needs exactly one teammate. Add their name here.':'');
+if(!ok)return;reg={id:'ARR26-'+Math.random().toString(36).slice(2,7).toUpperCase(),name:g('nm'),email:g('em'),evs};location.hash='#/confirm'}
+document.addEventListener('click',e=>{if(e.target.dataset.f){filter=e.target.dataset.f;route()}});
+document.addEventListener('input',e=>{if(e.target.id==='q')list()});
+$('#burger').onclick=()=>$('#nav').classList.toggle('open');
+addEventListener('hashchange',route);route();setInterval(tick,1000);
+</script></body></html>
