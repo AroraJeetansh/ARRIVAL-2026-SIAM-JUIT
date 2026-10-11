@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <rect width="100%" height="100%" fill="#0a0a0f"/>
+  <rect x="15" y="15" width="370" height="470" rx="20" fill="none" stroke="#8247e5" stroke-opacity="0.25" stroke-width="2"/>
+  <circle cx="200" cy="200" r="90" fill="#8247e5" fill-opacity="0.08"/>
+  <circle cx="200" cy="200" r="60" fill="none" stroke="#8247e5" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="200" y="220" font-size="64" text-anchor="middle" fill="#8247e5">⬡</text>
+  <text x="200" y="340" font-family="Space Grotesk, sans-serif" font-size="34" font-weight="bold" text-anchor="middle" fill="#f7f9fa">Polygon</text>
+  <text x="200" y="375" font-family="JetBrains Mono, monospace" font-size="14" letter-spacing="3" text-anchor="middle" fill="#8247e5" fill-opacity="0.9">ETHEREUM // WEB3</text>
+  <line x1="120" y1="410" x2="280" y2="410" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+  <text x="200" y="440" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="4" text-anchor="middle" fill="#828384">ARRIVAL ’26 PARTNER</text>
+</svg>

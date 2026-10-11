@@ -1,0 +1,85 @@
+.sponsors-section {
+  position: relative;
+  padding: 120px 24px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.sponsors-section__tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  margin-top: 56px;
+}
+
+.sponsor-tier {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sponsor-tier__header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.sponsor-tier__badge {
+  font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffd700;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.sponsor-tier--nebula .sponsor-tier__badge {
+  color: #53c2c6;
+}
+
+.sponsor-tier--orbit .sponsor-tier__badge {
+  color: #c084fc;
+}
+
+.sponsor-tier__subtitle {
+  font-family: var(--font-whyte-inktrap, 'Space Grotesk', sans-serif);
+  font-size: 14px;
+  color: #828384;
+  margin: 0;
+}
+
+.sponsor-tier__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  width: 100%;
+}
+
+.sponsor-card-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.sponsor-card-item__info {
+  margin-top: 14px;
+}
+
+.sponsor-card-item__name {
+  font-family: var(--font-whyte-inktrap, 'Space Grotesk', sans-serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: #f7f9fa;
+  margin: 0 0 4px;
+}
+
+.sponsor-card-item__tagline {
+  font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  color: #828384;
+  letter-spacing: 0.08em;
+  margin: 0;
+}

@@ -1,0 +1,106 @@
+.organizers-section {
+  position: relative;
+  padding: 120px 24px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.organizers-section__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  margin-top: 56px;
+}
+
+@media (max-width: 1100px) {
+  .organizers-section__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 600px) {
+  .organizers-section__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.organizer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.organizer-item__card-wrap {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Details placed directly below the card as requested */
+.organizer-item__details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.organizer-item__name {
+  font-family: var(--font-whyte-inktrap, 'Space Grotesk', sans-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: #f7f9fa;
+  margin: 0 0 6px;
+}
+
+.organizer-item__role {
+  font-family: var(--font-whyte-inktrap, 'Space Grotesk', sans-serif);
+  font-size: 14px;
+  font-weight: 500;
+  color: #af50ff;
+  margin: 0 0 4px;
+}
+
+.organizer-item__dept {
+  font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  color: #828384;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+.organizer-item__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.organizer-item__tag {
+  font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #828384;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(247, 249, 250, 0.06);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.organizer-item__handle {
+  font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  color: #e1bdff;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.organizer-item__handle:hover {
+  opacity: 1;
+  text-decoration: underline;
+}

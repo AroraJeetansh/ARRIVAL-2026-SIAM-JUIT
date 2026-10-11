@@ -1,0 +1,135 @@
+.footer {
+  position: relative;
+  background: rgba(9, 9, 9, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(247, 249, 250, 0.1);
+  padding: 80px 24px 32px;
+  overflow: hidden;
+}
+
+.footer__container {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.footer__top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 60px;
+  border-bottom: 1px solid rgba(247, 249, 250, 0.08);
+}
+
+@media (max-width: 850px) {
+  .footer__top {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer__title {
+  font-family: var(--font-whyte-inktrap, 'Space Grotesk', sans-serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: #f7f9fa;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.footer__desc {
+  font-family: var(--font-whyte-inktrap, 'Space Grotesk', sans-serif);
+  font-size: 14.5px;
+  color: #828384;
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0;
+}
+
+.footer__org-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: #e1bdff;
+  background: rgba(175, 80, 255, 0.08);
+  border: 1px solid rgba(175, 80, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 99px;
+  width: fit-content;
+}
+
+.footer__nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer__heading {
+  font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f7f9fa;
+  margin: 0 0 8px;
+}
+
+.footer__link {
+  font-family: var(--font-whyte-inktrap, 'Space Grotesk', sans-serif);
+  font-size: 14px;
+  color: #828384;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer__link:hover {
+  color: #af50ff;
+}
+
+/* dope.security signature coordinate strip */
+.footer__coordinates-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 32px 0 24px;
+  font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: #828384;
+  border-bottom: 1px solid rgba(247, 249, 250, 0.06);
+}
+
+.footer__coords-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer__coords-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #e1bdff;
+}
+
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 24px;
+  font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  color: #6b6b6b;
+}
