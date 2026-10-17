@@ -250,14 +250,13 @@ void main() {
 }`;
 
 const QUALITY = {
-  low: { sim: 96, dye: 384 },
-  medium: { sim: 128, dye: 576 },
-  high: { sim: 160, dye: 768 }
+  low: { sim: 64, dye: 256, pressure: 4 },
+  medium: { sim: 96, dye: 384, pressure: 8 },
+  high: { sim: 128, dye: 512, pressure: 12 }
 };
 
-const PRESSURE_STEPS = 20;
 const FLOW = 0.75;
-const BLOOM_LEVELS = 5;
+const BLOOM_LEVELS = 3;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -305,10 +304,10 @@ const GlowCursor = ({
   followSpeed = 0.6,
   grain = 0,
   clickBurst = true,
-  quality = 'high',
+  quality = 'medium',
   theme = 'dark',
   blendMode,
-  maxDevicePixelRatio = 2,
+  maxDevicePixelRatio = 1,
   enabled = true,
   children,
   className = '',
@@ -341,12 +340,15 @@ const GlowCursor = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
+    const coarse = window.matchMedia?.('(pointer: coarse)').matches ?? false;
+    if (coarse || !settingsRef.current.enabled) return undefined;
     const gl = canvas?.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,
       antialias: false,
       depth: false,
-      stencil: false
+      stencil: false,
+      powerPreference: 'low-power'
     });
     if (!container || !canvas || !gl || !gl.getExtension('EXT_color_buffer_float')) return undefined;
 
@@ -693,7 +695,8 @@ const GlowCursor = ({
 
         u = activatePass(passes.pressure, pressure.read.texel);
         gl.uniform1i(u.uDivergence, bind(1, divergence));
-        for (let i = 0; i < PRESSURE_STEPS; i++) {
+        const steps = QUALITY[s.quality]?.pressure ?? 8;
+        for (let i = 0; i < steps; i++) {
           gl.uniform1i(u.uPressure, bind(0, pressure.read));
           draw(pressure.write);
           pressure.swap();
@@ -738,22 +741,28 @@ const GlowCursor = ({
       gl.uniform2f(u.uVelocityTexel, velocity.read.texel[0], velocity.read.texel[1]);
       gl.uniform1i(u.uVelocity, bind(0, velocity.read));
       gl.uniform1i(u.uSource, bind(1, dye.read));
-      gl.uniform1f(u.uDt, dt);
-      gl.uniform4f(u.uDecay, 1, 1, 1, 1);
-      draw(forward);
-      gl.uniform1i(u.uSource, bind(1, forward));
-      gl.uniform1f(u.uDt, -dt);
-      draw(back);
-      u = activatePass(passes.maccormack, dye.read.texel);
-      gl.uniform2f(u.uVelocityTexel, velocity.read.texel[0], velocity.read.texel[1]);
-      gl.uniform2f(u.uSourceTexel, dye.read.texel[0], dye.read.texel[1]);
-      gl.uniform1i(u.uVelocity, bind(0, velocity.read));
-      gl.uniform1i(u.uSource, bind(1, dye.read));
-      gl.uniform1i(u.uForward, bind(2, forward));
-      gl.uniform1i(u.uBack, bind(3, back));
-      gl.uniform1f(u.uDt, dt);
-      gl.uniform4f(u.uDecay, decay[0], decay[1], decay[2], decay[3]);
-      draw(dye.write);
+      if (s.quality === 'high') {
+        gl.uniform1f(u.uDt, dt);
+        gl.uniform4f(u.uDecay, 1, 1, 1, 1);
+        draw(forward);
+        gl.uniform1i(u.uSource, bind(1, forward));
+        gl.uniform1f(u.uDt, -dt);
+        draw(back);
+        u = activatePass(passes.maccormack, dye.read.texel);
+        gl.uniform2f(u.uVelocityTexel, velocity.read.texel[0], velocity.read.texel[1]);
+        gl.uniform2f(u.uSourceTexel, dye.read.texel[0], dye.read.texel[1]);
+        gl.uniform1i(u.uVelocity, bind(0, velocity.read));
+        gl.uniform1i(u.uSource, bind(1, dye.read));
+        gl.uniform1i(u.uForward, bind(2, forward));
+        gl.uniform1i(u.uBack, bind(3, back));
+        gl.uniform1f(u.uDt, dt);
+        gl.uniform4f(u.uDecay, decay[0], decay[1], decay[2], decay[3]);
+        draw(dye.write);
+      } else {
+        gl.uniform1f(u.uDt, dt);
+        gl.uniform4f(u.uDecay, decay[0], decay[1], decay[2], decay[3]);
+        draw(dye.write);
+      }
       dye.swap();
     };
 

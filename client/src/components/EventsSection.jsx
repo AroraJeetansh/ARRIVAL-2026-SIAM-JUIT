@@ -1,5 +1,5 @@
 import HoloCard from './HoloCard';
-import { FESTIVAL_EVENTS } from '../data/festivalData';
+import { FESTIVAL_EVENTS } from '../data/eventData';
 import './EventsSection.css';
 
 export default function EventsSection({ onOpenRegister }) {

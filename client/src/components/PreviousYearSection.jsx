@@ -1,4 +1,4 @@
-import { PREVIOUS_YEAR_PHOTOS } from '../data/festivalData';
+import { PREVIOUS_YEAR_PHOTOS } from '../data/eventData';
 import './PreviousYearSection.css';
 
 export default function PreviousYearSection() {
@@ -11,7 +11,7 @@ export default function PreviousYearSection() {
         {PREVIOUS_YEAR_PHOTOS.map((item) => (
           <div key={item.title} className="gallery-card">
             <div className="gallery-card__img-wrap">
-              <img src={item.src} alt={item.title} className="gallery-card__img" />
+              <img src={item.src} alt={item.title} className="gallery-card__img" loading="lazy" decoding="async" />
               <span className="gallery-card__tag">{item.tag}</span>
             </div>
             <div className="gallery-card__body">

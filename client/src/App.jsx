@@ -113,7 +113,8 @@ export default function App() {
     const handleScroll = () => {
       if (isTransitioningRef.current) return;
       const heroThreshold = (window.innerHeight || 800) * 0.4;
-      setPastHero(window.scrollY > heroThreshold);
+      const next = window.scrollY > heroThreshold;
+      setPastHero((prev) => (prev === next ? prev : next));
     };
 
     window.addEventListener('wheel', handleWheel, { passive: false });
@@ -149,6 +150,8 @@ export default function App() {
       trailWidth={2.8}
       theme="dark"
       clickBurst
+      quality="medium"
+      maxDevicePixelRatio={1}
     >
       <div className="app-container">
         {/* Cinematic Blackout Transition Overlay */}
@@ -161,7 +164,10 @@ export default function App() {
         <FloatingNav onOpenRegister={() => handleOpenRegister()} />
 
         {/* 1. Hero Section with Hyperspeed face component, Arrival '26 title, and Space Counter */}
-        <HeroSection onExplore={() => performBlackoutTransition('#about', true)} />
+        <HeroSection
+          active={!pastHero}
+          onExplore={() => performBlackoutTransition('#about', true)}
+        />
 
         {/* Post-Hero Container with WebGL Galaxy Ambient Background */}
         <div className="post-hero-container">
@@ -169,20 +175,21 @@ export default function App() {
             className={`post-hero-galaxy-bg ${pastHero ? 'post-hero-galaxy-bg--active' : ''}`}
             aria-hidden="true"
           >
-            <Galaxy
-              mouseRepulsion={true}
-              mouseInteraction={true}
-              density={1.3}
-              glowIntensity={0.5}
-              saturation={0.3}
-              hueShift={240}
-              twinkleIntensity={0.6}
-              speed={0.8}
-              starSpeed={0.5}
-              rotationSpeed={0.06}
-              transparent={true}
-              disableAnimation={!pastHero}
-            />
+            {pastHero ? (
+              <Galaxy
+                mouseRepulsion={true}
+                mouseInteraction={true}
+                density={1.15}
+                glowIntensity={0.5}
+                saturation={0.3}
+                hueShift={240}
+                twinkleIntensity={0.6}
+                speed={0.8}
+                starSpeed={0.5}
+                rotationSpeed={0.06}
+                transparent={true}
+              />
+            ) : null}
           </div>
 
           <div className="post-hero-content">

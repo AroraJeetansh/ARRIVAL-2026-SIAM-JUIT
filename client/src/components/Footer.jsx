@@ -1,4 +1,4 @@
-import { FESTIVAL_METADATA, FESTIVAL_NAV_LINKS } from '../data/festivalData';
+import { FESTIVAL_METADATA, FESTIVAL_NAV_LINKS } from '../data/eventData';
 import './Footer.css';
 
 export default function Footer({ onOpenRegister }) {

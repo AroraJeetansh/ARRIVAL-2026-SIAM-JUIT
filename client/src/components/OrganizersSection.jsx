@@ -1,5 +1,5 @@
 import HoloCard from './HoloCard';
-import { ORGANIZING_TEAM } from '../data/festivalData';
+import { ORGANIZING_TEAM } from '../data/eventData';
 import './OrganizersSection.css';
 
 export default function OrganizersSection() {

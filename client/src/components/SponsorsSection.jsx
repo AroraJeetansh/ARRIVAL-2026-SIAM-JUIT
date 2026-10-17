@@ -1,5 +1,5 @@
 import HoloCard from './HoloCard';
-import { SPONSORS_DATA } from '../data/festivalData';
+import { SPONSORS_DATA } from '../data/eventData';
 import './SponsorsSection.css';
 
 export default function SponsorsSection() {
@@ -13,8 +13,8 @@ export default function SponsorsSection() {
           const tierSlug = tier.tier.toLowerCase().includes('alpha')
             ? 'alpha'
             : tier.tier.toLowerCase().includes('nebula')
-            ? 'nebula'
-            : 'orbit';
+              ? 'nebula'
+              : 'orbit';
 
           return (
             <div key={tier.tier} className={`sponsor-tier sponsor-tier--${tierSlug}`}>

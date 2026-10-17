@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FESTIVAL_EVENTS, FESTIVAL_METADATA } from '../data/festivalData';
+import { FESTIVAL_EVENTS, FESTIVAL_METADATA } from '../data/eventData';
 import './RegisterModal.css';
 
 export default function RegisterModal({ isOpen, onClose, defaultEvent }) {

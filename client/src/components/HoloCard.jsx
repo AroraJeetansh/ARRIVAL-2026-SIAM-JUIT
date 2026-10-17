@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { claimHoloGl, releaseHoloGl } from '../utils/holoGlPool';
 import './HoloCard.css';
 
 const PRESETS = ['bursts', 'stars', 'shards', 'cosmos', 'rainbow', 'swirl', 'glitter', 'gold'];
@@ -276,6 +277,8 @@ void main() {
 }
 `;
 
+let holoSeq = 0;
+
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 const parseColor = value => {
@@ -315,7 +318,7 @@ export default function HoloCard({
   radius = 14,
   tiltMax = 14,
   hoverScale = 1.04,
-  idle = true,
+  idle = false,
   shadow = true,
   className = '',
   style
@@ -329,6 +332,7 @@ export default function HoloCard({
   const wakeRef = useRef(null);
   const loadRef = useRef(null);
   const flipRef = useRef(false);
+  const slotIdRef = useRef(null);
   const [ratio, setRatio] = useState(CARD_RATIO);
   const [ready, setReady] = useState(false);
   const [flipped, setFlipped] = useState(false);
@@ -353,10 +357,6 @@ export default function HoloCard({
   });
 
   useEffect(() => {
-    wakeRef.current?.();
-  });
-
-  useEffect(() => {
     loadRef.current?.(image);
   }, [image]);
 
@@ -365,16 +365,34 @@ export default function HoloCard({
     const rotor = rotorRef.current;
     const canvas = canvasRef.current;
     if (!root || !rotor || !canvas) return undefined;
+    if (!slotIdRef.current) {
+      holoSeq += 1;
+      slotIdRef.current = `holo-${holoSeq}`;
+    }
 
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-    const gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false });
+    const uniforms = {};
+    let gl = null;
     let program = null;
     let texture = null;
     let buffer = null;
-    const uniforms = {};
     let textureReady = false;
+    let pendingImage = null;
 
-    if (gl) {
+    const bindProgram = () => {
+      if (gl && program && !gl.isContextLost()) return true;
+      if (gl?.isContextLost()) {
+        gl.getExtension('WEBGL_lose_context')?.restoreContext();
+      }
+      gl = canvas.getContext('webgl2', {
+        alpha: true,
+        premultipliedAlpha: true,
+        antialias: false,
+        depth: false,
+        stencil: false,
+        powerPreference: 'low-power'
+      });
+      if (!gl) return false;
       const vertex = compile(gl, gl.VERTEX_SHADER, VERTEX);
       const fragment = compile(gl, gl.FRAGMENT_SHADER, FRAGMENT);
       if (vertex && fragment) {
@@ -390,40 +408,40 @@ export default function HoloCard({
           program = null;
         }
       }
-      if (program) {
-        buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(0);
-        gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-        texture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
-        for (const name of [
-          'uArt',
-          'uSize',
-          'uAspect',
-          'uTilt',
-          'uLight',
-          'uDistance',
-          'uPreset',
-          'uIntensity',
-          'uScale',
-          'uEdge',
-          'uFrame',
-          'uRadius',
-          'uGlare',
-          'uFoil',
-          'uReady'
-        ]) {
-          uniforms[name] = gl.getUniformLocation(program, name);
-        }
+      if (!program) return false;
+      buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+      gl.enableVertexAttribArray(0);
+      gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+      texture = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
+      for (const name of [
+        'uArt',
+        'uSize',
+        'uAspect',
+        'uTilt',
+        'uLight',
+        'uDistance',
+        'uPreset',
+        'uIntensity',
+        'uScale',
+        'uEdge',
+        'uFrame',
+        'uRadius',
+        'uGlare',
+        'uFoil',
+        'uReady'
+      ]) {
+        uniforms[name] = gl.getUniformLocation(program, name);
       }
-    }
+      return true;
+    };
 
     const state = {
       tiltX: 0,
@@ -442,9 +460,10 @@ export default function HoloCard({
     };
     let raf = 0;
     let last = 0;
-    let visible = true;
+    let visible = false;
     let alive = true;
     let calm = 0;
+    let releaseTimer = 0;
 
     const draw = () => {
       if (!gl || !program) return;
@@ -483,7 +502,7 @@ export default function HoloCard({
 
     const tick = now => {
       raf = 0;
-      if (!alive) return;
+      if (!alive || !gl || !program) return;
       const dt = Math.min(1 / 30, Math.max(1 / 240, (now - last) / 1000));
       last = now;
       const s = settingsRef.current;
@@ -508,7 +527,7 @@ export default function HoloCard({
         lightX = 0.5 + Math.sin(t * 0.41) * 0.42;
         lightY = 0.38 + Math.sin(t * 0.33 + 0.6) * 0.3;
       }
-      const steps = Math.ceil(dt / (1 / 240));
+      const steps = Math.max(1, Math.ceil(dt / (1 / 60)));
       const h = dt / steps;
       for (let i = 0; i < steps; i++) {
         [state.tiltX, state.tiltVX] = spring(state.tiltX, state.tiltVX, targetX, 150, 16, h);
@@ -538,8 +557,53 @@ export default function HoloCard({
       raf = requestAnimationFrame(tick);
     };
 
+    const applyTexture = img => {
+      if (!gl || !program || !img) return;
+      try {
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+        gl.generateMipmap(gl.TEXTURE_2D);
+        textureReady = true;
+        setReady(true);
+      } catch {
+        textureReady = false;
+      }
+    };
+
+    const teardownGl = () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      releaseHoloGl(slotIdRef.current);
+      if (!gl) return;
+      try {
+        gl.deleteTexture(texture);
+        gl.deleteBuffer(buffer);
+        gl.deleteProgram(program);
+        gl.getExtension('WEBGL_lose_context')?.loseContext();
+      } catch {
+        /* context already released */
+      }
+      gl = null;
+      program = null;
+      texture = null;
+      buffer = null;
+      textureReady = false;
+      setReady(false);
+    };
+
+    const ensureGl = () => {
+      if (gl && program) return true;
+      if (!bindProgram()) return false;
+      applyTexture(pendingImage);
+      return true;
+    };
+
     const wake = () => {
-      if (raf || !alive) return;
+      if (raf || !alive || !visible) return;
+      if (!ensureGl()) return;
+      claimHoloGl(slotIdRef.current, teardownGl);
       calm = 0;
       last = performance.now();
       raf = requestAnimationFrame(tick);
@@ -547,7 +611,8 @@ export default function HoloCard({
     wakeRef.current = wake;
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (!visible) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
       const w = Math.max(1, Math.round(canvas.clientWidth * dpr));
       const h = Math.max(1, Math.round(canvas.clientHeight * dpr));
       if (canvas.width !== w || canvas.height !== h) {
@@ -555,59 +620,73 @@ export default function HoloCard({
         canvas.height = h;
       }
       draw();
-      wake();
     };
 
     loadRef.current = src => {
       textureReady = false;
-      setReady(false);
-      if (!src) return;
+      pendingImage = null;
+      if (!src) {
+        setReady(false);
+        return;
+      }
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.decoding = 'async';
       img.onload = () => {
         if (!alive) return;
+        pendingImage = img;
         if (img.naturalWidth && img.naturalHeight) setRatio(img.naturalWidth / img.naturalHeight);
-        if (!gl || !program) return;
-        try {
-          gl.bindTexture(gl.TEXTURE_2D, texture);
-          gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-          gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
-          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-          gl.generateMipmap(gl.TEXTURE_2D);
-          textureReady = true;
-          setReady(true);
-          draw();
-          wake();
-        } catch {
-          textureReady = false;
-        }
+        applyTexture(img);
+        draw();
+        wake();
       };
       img.src = src;
     };
     loadRef.current(image);
 
+    const onContextLost = event => {
+      event.preventDefault();
+      cancelAnimationFrame(raf);
+      raf = 0;
+      gl = null;
+      program = null;
+      texture = null;
+      buffer = null;
+      textureReady = false;
+      setReady(false);
+    };
+    canvas.addEventListener('webglcontextlost', onContextLost);
+
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(canvas);
-    const visibility = new IntersectionObserver(entries => {
-      visible = entries.some(entry => entry.isIntersecting);
-      if (visible) wake();
-    });
+    const visibility = new IntersectionObserver(
+      entries => {
+        visible = entries.some(entry => entry.isIntersecting);
+        window.clearTimeout(releaseTimer);
+        if (visible) {
+          wake();
+        } else {
+          cancelAnimationFrame(raf);
+          raf = 0;
+          releaseTimer = window.setTimeout(() => {
+            if (!visible && alive) teardownGl();
+          }, 400);
+        }
+      },
+      { rootMargin: '80px 0px', threshold: 0.01 }
+    );
     visibility.observe(root);
-    resize();
 
     return () => {
       alive = false;
+      window.clearTimeout(releaseTimer);
       cancelAnimationFrame(raf);
       wakeRef.current = null;
       loadRef.current = null;
+      canvas.removeEventListener('webglcontextlost', onContextLost);
       resizeObserver.disconnect();
       visibility.disconnect();
-      if (gl) {
-        gl.deleteTexture(texture);
-        gl.deleteBuffer(buffer);
-        gl.deleteProgram(program);
-      }
+      teardownGl();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -663,7 +742,7 @@ export default function HoloCard({
       {shadow ? <span ref={shadowRef} className="holo-card__shadow" aria-hidden="true" /> : null}
       <div ref={rotorRef} className="holo-card__rotor">
         <div className="holo-card__face holo-card__face--front">
-          {image ? <img src={image} alt="" draggable={false} /> : null}
+          {image ? <img src={image} alt="" draggable={false} loading="lazy" decoding="async" /> : null}
           <canvas ref={canvasRef} />
         </div>
         {flippable ? (

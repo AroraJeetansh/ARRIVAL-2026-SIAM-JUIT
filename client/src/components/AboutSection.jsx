@@ -1,4 +1,4 @@
-import { FESTIVAL_STATS } from '../data/festivalData';
+import { FESTIVAL_STATS } from '../data/eventData';
 import './AboutSection.css';
 
 export default function AboutSection() {

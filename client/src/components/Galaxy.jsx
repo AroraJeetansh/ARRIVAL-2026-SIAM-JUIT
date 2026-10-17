@@ -39,7 +39,7 @@ uniform float uLightMode;
 
 varying vec2 vUv;
 
-#define NUM_LAYER 4.0
+#define NUM_LAYER 3.0
 #define STAR_COLOR_CUTOFF 0.2
 #define MAT45 mat2(0.7071, -0.7071, 0.7071, 0.7071)
 #define PERIOD 3.0
@@ -205,9 +205,11 @@ export default function Galaxy({
   const targetMouseActive = useRef(0.0);
   const smoothMouseActive = useRef(0.0);
   const disableAnimationRef = useRef(disableAnimation);
+  const wakeRef = useRef(null);
 
   useEffect(() => {
     disableAnimationRef.current = disableAnimation;
+    if (!disableAnimation) wakeRef.current?.();
   }, [disableAnimation]);
 
   useEffect(() => {
@@ -215,9 +217,15 @@ export default function Galaxy({
     const ctn = ctnDom.current;
     const renderer = new Renderer({
       alpha: transparent,
-      premultipliedAlpha: false
+      premultipliedAlpha: false,
+      antialias: false,
+      dpr: 1,
+      powerPreference: 'high-performance'
     });
     const gl = renderer.gl;
+    gl.canvas.style.width = '100%';
+    gl.canvas.style.height = '100%';
+    gl.canvas.style.display = 'block';
 
     if (lightMode) {
       gl.clearColor(1, 1, 1, 1);
@@ -232,10 +240,12 @@ export default function Galaxy({
     let program;
 
     function resize() {
-      const scale = 1;
+      const scale = window.matchMedia?.('(pointer: coarse)').matches ? 0.4 : 0.55;
       const w = Math.max(1, ctn.offsetWidth || window.innerWidth);
       const h = Math.max(1, ctn.offsetHeight || window.innerHeight);
       renderer.setSize(w * scale, h * scale);
+      gl.canvas.style.width = '100%';
+      gl.canvas.style.height = '100%';
       if (program) {
         program.uniforms.uResolution.value = new Color(
           gl.canvas.width,
@@ -279,14 +289,20 @@ export default function Galaxy({
     });
 
     const mesh = new Mesh(gl, { geometry, program });
-    let animateId;
+    let animateId = 0;
+    let lastDraw = 0;
+    let pageVisible = !document.hidden;
 
     function update(t) {
+      animateId = 0;
+      if (disableAnimationRef.current || !pageVisible) return;
+
       animateId = requestAnimationFrame(update);
-      if (!disableAnimationRef.current) {
-        program.uniforms.uTime.value = t * 0.001;
-        program.uniforms.uStarSpeed.value = (t * 0.001 * starSpeed) / 10.0;
-      }
+      if (t - lastDraw < 33) return;
+      lastDraw = t;
+
+      program.uniforms.uTime.value = t * 0.001;
+      program.uniforms.uStarSpeed.value = (t * 0.001 * starSpeed) / 10.0;
 
       const lerpFactor = 0.05;
       smoothMousePos.current.x += (targetMousePos.current.x - smoothMousePos.current.x) * lerpFactor;
@@ -300,10 +316,26 @@ export default function Galaxy({
 
       renderer.render({ scene: mesh });
     }
-    animateId = requestAnimationFrame(update);
+
+    const wake = () => {
+      if (!animateId && !disableAnimationRef.current && pageVisible) {
+        lastDraw = 0;
+        animateId = requestAnimationFrame(update);
+      }
+    };
+    wakeRef.current = wake;
+
+    const onVisibility = () => {
+      pageVisible = !document.hidden;
+      if (pageVisible) wake();
+    };
+
+    document.addEventListener('visibilitychange', onVisibility);
+    wake();
     ctn.appendChild(gl.canvas);
 
     function handleMouseMove(e) {
+      if (disableAnimationRef.current) return;
       const rect = ctn.getBoundingClientRect();
       const w = rect.width || window.innerWidth;
       const h = rect.height || window.innerHeight;
@@ -324,7 +356,9 @@ export default function Galaxy({
 
     return () => {
       cancelAnimationFrame(animateId);
+      wakeRef.current = null;
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', onVisibility);
       if (mouseInteraction) {
         window.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseleave', handleMouseLeave);

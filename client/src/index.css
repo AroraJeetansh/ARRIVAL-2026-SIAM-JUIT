@@ -13,7 +13,7 @@
   /* Fonts mapped to Google Fonts equivalents from DESIGN.md */
   --font-whyte-inktrap: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-whyte-inktrap-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-grandslang: 'Playfair Display', 'Cinzel', serif;
+  --font-grandslang: 'Playfair Display', Georgia, serif;
 
   /* Surfaces */
   --surface-void-canvas: #090909;
@@ -34,6 +34,12 @@
 html {
   scroll-behavior: smooth;
   background-color: #090909;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -103,6 +109,16 @@ body {
 .post-hero-content {
   position: relative;
   z-index: 1;
+}
+
+.post-hero-content > section,
+.events-section,
+.organizers-section,
+.sponsors-section,
+.previous-year-section,
+.about-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }
 
 /* Hairline dividers per DESIGN.md */

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FESTIVAL_METADATA, FESTIVAL_NAV_LINKS } from '../data/festivalData';
+import { FESTIVAL_METADATA, FESTIVAL_NAV_LINKS } from '../data/eventData';
 import './FloatingNav.css';
 
 export default function FloatingNav({ onOpenRegister }) {

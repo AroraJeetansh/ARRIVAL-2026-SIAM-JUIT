@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FESTIVAL_METADATA } from '../data/festivalData';
+import { FESTIVAL_METADATA } from '../data/eventData';
 import './SpaceCounter.css';
 
 export default function SpaceCounter({ onWarpBoost }) {

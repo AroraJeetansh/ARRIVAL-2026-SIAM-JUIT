@@ -511,10 +511,15 @@ const Hyperspeed = ({
     if (!container) return undefined;
 
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+    const renderer = new THREE.WebGLRenderer({
+      antialias: false,
+      alpha: true,
+      powerPreference: 'high-performance',
+      stencil: false
+    });
     renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
     renderer.autoClear = false;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.matchMedia?.('(pointer: coarse)').matches ? 1 : 1.25));
     container.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
@@ -552,7 +557,7 @@ const Hyperspeed = ({
       value: Array.from({ length: MAX_COLORS }, () => new THREE.Vector3(1, 1, 1))
     });
 
-    const roadGeometry = new THREE.PlaneGeometry(1, TRAVEL, 1, 220);
+    const roadGeometry = new THREE.PlaneGeometry(1, TRAVEL, 1, 96);
     roadGeometry.rotateX(-Math.PI / 2);
     roadGeometry.translate(0, 0, -TRAVEL / 2);
     disposables.push(roadGeometry);
@@ -576,9 +581,9 @@ const Hyperspeed = ({
 
     const tube = new THREE.TubeGeometry(
       new THREE.LineCurve3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -1)),
-      24,
+      12,
       1,
-      7,
+      5,
       false
     );
     disposables.push(tube);
@@ -733,7 +738,7 @@ const Hyperspeed = ({
 
     const floatTargets =
       renderer.extensions.has('EXT_color_buffer_float') || renderer.extensions.has('EXT_color_buffer_half_float');
-    const levels = Array.from({ length: 5 }, (_, index) => {
+    const levels = Array.from({ length: 3 }, (_, index) => {
       const target = new THREE.WebGLRenderTarget(1, 1, {
         type: floatTargets ? THREE.HalfFloatType : THREE.UnsignedByteType,
         depthBuffer: index === 0
@@ -964,7 +969,7 @@ const Hyperspeed = ({
         pass(bloomMaterial, levels[1], null);
       }
 
-      if (state.visible) raf = requestAnimationFrame(frame);
+      if (state.visible && !document.hidden) raf = requestAnimationFrame(frame);
     };
 
     const wake = () => {
@@ -1006,6 +1011,10 @@ const Hyperspeed = ({
       if (state.visible) wake();
     });
     visibility.observe(container);
+    const onPageVisibility = () => {
+      if (!document.hidden && state.visible) wake();
+    };
+    document.addEventListener('visibilitychange', onPageVisibility);
     container.addEventListener('pointerdown', onDown);
     container.addEventListener('pointermove', onMove);
     container.addEventListener('pointerleave', onLeave);
@@ -1020,6 +1029,7 @@ const Hyperspeed = ({
       cancelAnimationFrame(raf);
       resizeObserver.disconnect();
       visibility.disconnect();
+      document.removeEventListener('visibilitychange', onPageVisibility);
       container.removeEventListener('pointerdown', onDown);
       container.removeEventListener('pointermove', onMove);
       container.removeEventListener('pointerleave', onLeave);

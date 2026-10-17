@@ -31,8 +31,12 @@
   inset: 10% 7% -4%;
   border-radius: var(--hc-radius);
   background: rgba(0, 0, 0, 0.42);
-  filter: blur(26px);
+  filter: blur(18px);
   pointer-events: none;
+}
+
+.holo-card:hover .holo-card__shadow,
+.holo-card:focus-visible .holo-card__shadow {
   will-change: transform;
 }
 
@@ -40,6 +44,10 @@
   position: absolute;
   inset: 0;
   transform-style: preserve-3d;
+}
+
+.holo-card:hover .holo-card__rotor,
+.holo-card:focus-visible .holo-card__rotor {
   will-change: transform;
 }
 
