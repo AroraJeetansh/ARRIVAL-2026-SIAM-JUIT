@@ -20,9 +20,13 @@
 }
 
 @media (max-width: 600px) {
+  .organizers-section {
+    padding: 70px 16px;
+  }
   .organizers-section__grid {
     grid-template-columns: 1fr;
     gap: 40px;
+    margin-top: 36px;
   }
 }
 

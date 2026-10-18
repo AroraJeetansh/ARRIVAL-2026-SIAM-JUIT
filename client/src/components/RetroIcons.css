@@ -1,0 +1,47 @@
+.retro-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+}
+
+.retro-icon--trophy {
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.45));
+}
+
+.retro-icon--chrono {
+  filter: drop-shadow(0 0 4px rgba(83, 194, 198, 0.45));
+}
+
+.retro-icon--beacon {
+  filter: drop-shadow(0 0 4px rgba(225, 189, 255, 0.45));
+}
+
+.retro-icon--bolt {
+  filter: drop-shadow(0 0 6px rgba(175, 80, 255, 0.6));
+}
+
+.retro-icon--rocket {
+  filter: drop-shadow(0 0 10px rgba(175, 80, 255, 0.5));
+}
+
+.retro-icon--heart {
+  filter: drop-shadow(0 0 4px rgba(175, 80, 255, 0.5));
+}
+
+/* Hover dynamic reactions */
+.event-row__meta-item:hover .retro-icon {
+  transform: scale(1.15);
+}
+
+.event-row__meta-item:hover .retro-icon--trophy {
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+}
+
+.event-row__meta-item:hover .retro-icon--chrono {
+  filter: drop-shadow(0 0 8px rgba(83, 194, 198, 0.8));
+}
+
+.event-row__meta-item:hover .retro-icon--beacon {
+  filter: drop-shadow(0 0 8px rgba(225, 189, 255, 0.8));
+}

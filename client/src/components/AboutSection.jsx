@@ -5,7 +5,7 @@ export default function AboutSection() {
   return (
     <section id="about" className="about-section">
       <span className="section-subhead">// FLIGHT BRIEFING</span>
-      <h2 className="section-stamp">A B O U T &nbsp; A R R I V A L</h2>
+      <h2 className="section-stamp">ABOUT ARRIVAL</h2>
 
       <div className="about-section__grid">
         <div className="about-section__prose">

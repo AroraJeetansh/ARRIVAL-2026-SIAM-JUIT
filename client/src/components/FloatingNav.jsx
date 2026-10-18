@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FESTIVAL_METADATA, FESTIVAL_NAV_LINKS } from '../data/eventData';
+import { RetroBolt, RetroClose } from './RetroIcons';
 import './FloatingNav.css';
 
 export default function FloatingNav({ onOpenRegister }) {
@@ -62,7 +63,7 @@ export default function FloatingNav({ onOpenRegister }) {
           onClick={onOpenRegister}
           aria-label="Register for Arrival '26"
         >
-          <span className="floating-nav__neon-icon">⚡</span>
+          <RetroBolt size={14} className="floating-nav__neon-icon" color="#f7f9fa" />
           <span className="floating-nav__neon-text">REGISTER NOW</span>
           <span className="floating-nav__neon-glow-ring" aria-hidden="true" />
         </button>
@@ -93,7 +94,7 @@ export default function FloatingNav({ onOpenRegister }) {
             onClick={() => setMenuOpen(false)}
             aria-label="Close navigation menu"
           >
-            ✕
+            <RetroClose size={16} />
           </button>
         </div>
 

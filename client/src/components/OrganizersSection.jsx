@@ -6,7 +6,7 @@ export default function OrganizersSection() {
   return (
     <section id="team" className="organizers-section">
       <span className="section-subhead">// MISSION COMMAND</span>
-      <h2 className="section-stamp">T H E &nbsp; T E A M &nbsp; B E H I N D &nbsp; A R R I V A L</h2>
+      <h2 className="section-stamp">THE TEAM BEHIND ARRIVAL</h2>
 
       <div className="organizers-section__grid">
         {ORGANIZING_TEAM.map((member) => (

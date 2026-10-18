@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FESTIVAL_METADATA } from '../data/eventData';
+import { RetroBeacon, RetroBolt } from './RetroIcons';
 import './SpaceCounter.css';
 
 export default function SpaceCounter({ onWarpBoost }) {
@@ -8,10 +9,8 @@ export default function SpaceCounter({ onWarpBoost }) {
     hours: 0,
     minutes: 0,
     seconds: 0,
-    total: 0
+    isExpired: false
   });
-
-  const [missionTime, setMissionTime] = useState('');
 
   useEffect(() => {
     const targetDate = new Date(FESTIVAL_METADATA.eventDate).getTime();
@@ -20,12 +19,8 @@ export default function SpaceCounter({ onWarpBoost }) {
       const now = new Date().getTime();
       const difference = targetDate - now;
 
-      // Live UTC Mission Clock
-      const currentUTC = new Date().toISOString().substring(11, 19);
-      setMissionTime(currentUTC);
-
       if (difference <= 0) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, total: 0 });
+        setTimeLeft((prev) => (prev.isExpired ? prev : { days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: true }));
         return;
       }
 
@@ -34,150 +29,97 @@ export default function SpaceCounter({ onWarpBoost }) {
       const minutes = Math.floor((difference / 1000 / 60) % 60);
       const seconds = Math.floor((difference / 1000) % 60);
 
-      setTimeLeft({ days, hours, minutes, seconds, total: difference });
+      setTimeLeft((prev) => {
+        if (
+          prev.days === days &&
+          prev.hours === hours &&
+          prev.minutes === minutes &&
+          prev.seconds === seconds &&
+          !prev.isExpired
+        ) {
+          return prev;
+        }
+        return { days, hours, minutes, seconds, isExpired: false };
+      });
     };
 
     calculateTime();
     const timer = setInterval(calculateTime, 1000);
-    return () => clearInterval(timer);
+
+    const onVisibility = () => {
+      if (!document.hidden) calculateTime();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
   }, []);
 
   const formatPad = (num) => String(num).padStart(2, '0');
 
-  // Compact circular ring parameters
-  const radius = 28;
-  const circumference = 2 * Math.PI * radius;
-
-  const getOffset = (value, max) => {
-    const progress = Math.min(1, Math.max(0, value / max));
-    return circumference * (1 - progress);
-  };
+  const timeUnits = [
+    { label: 'DAYS', value: formatPad(timeLeft.days) },
+    { label: 'HOURS', value: formatPad(timeLeft.hours) },
+    { label: 'MINUTES', value: formatPad(timeLeft.minutes) },
+    { label: 'SECONDS', value: formatPad(timeLeft.seconds) },
+  ];
 
   return (
-    <div className="space-counter">
-      {/* Corner telemetry brackets */}
-      <span className="space-counter__bracket space-counter__bracket--tl" />
-      <span className="space-counter__bracket space-counter__bracket--tr" />
-      <span className="space-counter__bracket space-counter__bracket--bl" />
-      <span className="space-counter__bracket space-counter__bracket--br" />
+    <div className="space-counter" role="timer" aria-label="Countdown to Arrival 2026">
+      {/* Top ambient glow indicator */}
+      <div className="space-counter__glow-line" />
 
-      {/* Header Telemetry Strip: Date, Coordinates, Status (Deduplicated, shown once) */}
+      {/* Header: Status badge & Event Date */}
       <div className="space-counter__header">
-        <div className="space-counter__badge">
-          <span className="space-counter__blinker" />
-          <span>T-MINUS LAUNCH SEQUENCE</span>
+        <div className="space-counter__status">
+          <span className="space-counter__dot" />
+          <span className="space-counter__status-text">COUNTDOWN TO ARRIVAL</span>
         </div>
-
-        <div className="space-counter__coords">
-          <span>{FESTIVAL_METADATA.formattedDate}</span>
-          <span className="space-counter__sep">•</span>
-          <span>{FESTIVAL_METADATA.coordinates.formatted}</span>
-          <span className="space-counter__sep">•</span>
-          <span>{FESTIVAL_METADATA.venue}</span>
+        <div className="space-counter__date">
+          <span>{FESTIVAL_METADATA.formattedDate || 'OCTOBER 23, 2026'}</span>
         </div>
       </div>
 
-      {/* Compact Telemetry Countdown Dials */}
-      <div className="space-counter__grid">
-        {/* Days */}
-        <div className="counter-dial">
-          <div className="counter-dial__svg-wrap">
-            <svg className="counter-dial__svg" viewBox="0 0 68 68">
-              <circle className="counter-dial__bg-circle" cx="34" cy="34" r={radius} />
-              <circle
-                className="counter-dial__progress-circle"
-                cx="34"
-                cy="34"
-                r={radius}
-                strokeDasharray={circumference}
-                strokeDashoffset={getOffset(timeLeft.days, 365)}
-              />
-            </svg>
-            <span className="counter-dial__value">{formatPad(timeLeft.days)}</span>
-          </div>
-          <span className="counter-dial__label">DAYS</span>
+      {/* Main Countdown Numbers */}
+      {timeLeft.isExpired ? (
+        <div className="space-counter__live-banner">
+          <span className="space-counter__live-pulse" />
+          <span>ARRIVAL ’26 IS NOW LIVE!</span>
         </div>
-
-        {/* Hours */}
-        <div className="counter-dial">
-          <div className="counter-dial__svg-wrap">
-            <svg className="counter-dial__svg" viewBox="0 0 68 68">
-              <circle className="counter-dial__bg-circle" cx="34" cy="34" r={radius} />
-              <circle
-                className="counter-dial__progress-circle"
-                cx="34"
-                cy="34"
-                r={radius}
-                strokeDasharray={circumference}
-                strokeDashoffset={getOffset(timeLeft.hours, 24)}
-                style={{ stroke: '#c084fc' }}
-              />
-            </svg>
-            <span className="counter-dial__value">{formatPad(timeLeft.hours)}</span>
-          </div>
-          <span className="counter-dial__label">HOURS</span>
+      ) : (
+        <div className="space-counter__grid">
+          {timeUnits.map((unit, index) => (
+            <div key={unit.label} className="space-counter__unit-wrapper">
+              <div className="space-counter__card">
+                <span className="space-counter__value">{unit.value}</span>
+                <span className="space-counter__label">{unit.label}</span>
+              </div>
+              {index < timeUnits.length - 1 && (
+                <span className="space-counter__divider" aria-hidden="true">:</span>
+              )}
+            </div>
+          ))}
         </div>
+      )}
 
-        {/* Minutes */}
-        <div className="counter-dial">
-          <div className="counter-dial__svg-wrap">
-            <svg className="counter-dial__svg" viewBox="0 0 68 68">
-              <circle className="counter-dial__bg-circle" cx="34" cy="34" r={radius} />
-              <circle
-                className="counter-dial__progress-circle"
-                cx="34"
-                cy="34"
-                r={radius}
-                strokeDasharray={circumference}
-                strokeDashoffset={getOffset(timeLeft.minutes, 60)}
-                style={{ stroke: '#53c2c6' }}
-              />
-            </svg>
-            <span className="counter-dial__value">{formatPad(timeLeft.minutes)}</span>
-          </div>
-          <span className="counter-dial__label">MINS</span>
-        </div>
-
-        {/* Seconds */}
-        <div className="counter-dial">
-          <div className="counter-dial__svg-wrap">
-            <svg className="counter-dial__svg" viewBox="0 0 68 68">
-              <circle className="counter-dial__bg-circle" cx="34" cy="34" r={radius} />
-              <circle
-                className="counter-dial__progress-circle"
-                cx="34"
-                cy="34"
-                r={radius}
-                strokeDasharray={circumference}
-                strokeDashoffset={getOffset(timeLeft.seconds, 60)}
-                style={{ stroke: '#e1bdff' }}
-              />
-            </svg>
-            <span className="counter-dial__value">{formatPad(timeLeft.seconds)}</span>
-          </div>
-          <span className="counter-dial__label">SECS</span>
-        </div>
-      </div>
-
-      {/* Footer telemetry */}
+      {/* Footer: Venue info & interactive Warp Boost */}
       <div className="space-counter__footer">
-        <div className="space-counter__telemetry-line">
-          <span>UTC: {missionTime || '00:00:00'}</span>
-          <span>•</span>
-          <span>ORBITAL SYS: NOMINAL</span>
-          <span>•</span>
-          <span>ALT: {FESTIVAL_METADATA.coordinates.elevation}</span>
+        <div className="space-counter__venue">
+          <RetroBeacon size={12} color="#af50ff" />
+          <span>{FESTIVAL_METADATA.venue}</span>
         </div>
 
         {onWarpBoost && (
           <button
             type="button"
-            className="space-counter__warp-btn"
+            className="space-counter__boost-btn"
             onClick={onWarpBoost}
             title="Accelerate warp trajectory"
           >
-            <span>⚡</span>
-            <span>ENGAGE WARP BOOST</span>
+            <RetroBolt size={12} color="#f7f9fa" />
+            <span>WARP BOOST</span>
           </button>
         )}
       </div>

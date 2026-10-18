@@ -13,9 +13,13 @@
 }
 
 @media (max-width: 768px) {
+  .previous-year-section {
+    padding: 70px 16px;
+  }
   .previous-year-section__gallery {
     grid-template-columns: 1fr;
     gap: 28px;
+    margin-top: 32px;
   }
 }
 

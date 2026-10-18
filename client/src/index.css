@@ -149,3 +149,46 @@ body {
   visibility: visible;
   pointer-events: auto;
 }
+
+/* Global Responsive Stamped Section Headers (Always 1 Line) */
+.section-subhead {
+  font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
+  font-size: clamp(11px, 1.8vw, 13px);
+  letter-spacing: clamp(0.14em, 1.5vw, 0.22em);
+  text-transform: uppercase;
+  color: #af50ff;
+  margin: 0 0 10px;
+  display: block;
+  white-space: nowrap;
+}
+
+.section-stamp {
+  font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
+  font-size: clamp(18px, 4.2vw, 56px);
+  font-weight: 500;
+  letter-spacing: clamp(0.08em, 1.5vw, 0.22em);
+  text-transform: uppercase;
+  color: #f0f0f0;
+  margin: 0 0 24px;
+  line-height: 1.15;
+  text-align: left;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .section-stamp {
+    font-size: clamp(15px, 4vw, 28px);
+    letter-spacing: clamp(0.05em, 1.2vw, 0.14em);
+    white-space: nowrap;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .section-stamp {
+    font-size: clamp(13px, 4.2vw, 18px);
+    letter-spacing: clamp(0.02em, 0.8vw, 0.08em);
+    white-space: nowrap;
+  }
+}

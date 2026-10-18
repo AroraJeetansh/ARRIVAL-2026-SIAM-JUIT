@@ -1,4 +1,5 @@
 import { FESTIVAL_METADATA, FESTIVAL_NAV_LINKS } from '../data/eventData';
+import { RetroHeart } from './RetroIcons';
 import './Footer.css';
 
 export default function Footer({ onOpenRegister }) {
@@ -84,7 +85,7 @@ export default function Footer({ onOpenRegister }) {
 
           <div className="footer__coords-right">
             <span>{FESTIVAL_METADATA.coordinates.formatted}</span>
-            <span>♥</span>
+            <RetroHeart size={13} color="#af50ff" />
           </div>
         </div>
 

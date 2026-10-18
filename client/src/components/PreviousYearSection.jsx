@@ -5,7 +5,7 @@ export default function PreviousYearSection() {
   return (
     <section id="previous-year" className="previous-year-section">
       <span className="section-subhead">// MISSION ARCHIVES</span>
-      <h2 className="section-stamp">P R E V I O U S &nbsp; Y E A R</h2>
+      <h2 className="section-stamp">PREVIOUS YEAR</h2>
 
       <div className="previous-year-section__gallery">
         {PREVIOUS_YEAR_PHOTOS.map((item) => (

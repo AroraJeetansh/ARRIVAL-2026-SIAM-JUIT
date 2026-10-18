@@ -110,11 +110,17 @@ export default function App() {
       }
     };
 
+    let scrollTicking = false;
     const handleScroll = () => {
-      if (isTransitioningRef.current) return;
-      const heroThreshold = (window.innerHeight || 800) * 0.4;
-      const next = window.scrollY > heroThreshold;
-      setPastHero((prev) => (prev === next ? prev : next));
+      if (scrollTicking || isTransitioningRef.current) return;
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        scrollTicking = false;
+        if (isTransitioningRef.current) return;
+        const heroThreshold = (window.innerHeight || 800) * 0.4;
+        const next = window.scrollY > heroThreshold;
+        setPastHero((prev) => (prev === next ? prev : next));
+      });
     };
 
     window.addEventListener('wheel', handleWheel, { passive: false });

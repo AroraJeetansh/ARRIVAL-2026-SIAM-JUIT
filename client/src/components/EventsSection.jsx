@@ -1,12 +1,13 @@
 import HoloCard from './HoloCard';
 import { FESTIVAL_EVENTS } from '../data/eventData';
+import { RetroTrophy, RetroChrono, RetroBeacon, RetroArrow } from './RetroIcons';
 import './EventsSection.css';
 
 export default function EventsSection({ onOpenRegister }) {
   return (
     <section id="events" className="events-section">
       <span className="section-subhead">// MISSION EXPEDITIONS</span>
-      <h2 className="section-stamp">E V E N T S &nbsp; A T &nbsp; A R R I V A L &nbsp; ’ 2 6</h2>
+      <h2 className="section-stamp">EVENTS AT ARRIVAL ’26</h2>
 
       <div className="events-section__list">
         {FESTIVAL_EVENTS.map((event, index) => {
@@ -39,13 +40,16 @@ export default function EventsSection({ onOpenRegister }) {
 
                 <div className="event-row__meta">
                   <span className="event-row__meta-item event-row__prize">
-                    🏆 {event.prizePool}
+                    <RetroTrophy size={14} color="#ffd700" />
+                    <span>{event.prizePool}</span>
                   </span>
-                  <span className="event-row__meta-item">
-                    ⏱ {event.schedule}
+                  <span className="event-row__meta-item event-row__schedule">
+                    <RetroChrono size={14} color="#53c2c6" />
+                    <span>{event.schedule}</span>
                   </span>
-                  <span className="event-row__meta-item">
-                    📍 {event.venue}
+                  <span className="event-row__meta-item event-row__venue">
+                    <RetroBeacon size={14} color="#e1bdff" />
+                    <span>{event.venue}</span>
                   </span>
                 </div>
 
@@ -66,7 +70,7 @@ export default function EventsSection({ onOpenRegister }) {
                   onClick={() => onOpenRegister(event.title)}
                 >
                   <span>Register for {event.title}</span>
-                  <span aria-hidden="true">→</span>
+                  <RetroArrow size={14} className="event-row__btn-arrow" />
                 </button>
               </div>
             </div>

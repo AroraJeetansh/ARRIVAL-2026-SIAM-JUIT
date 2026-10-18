@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FESTIVAL_EVENTS, FESTIVAL_METADATA } from '../data/eventData';
+import { RetroClose, RetroRocket } from './RetroIcons';
 import './RegisterModal.css';
 
 export default function RegisterModal({ isOpen, onClose, defaultEvent }) {
@@ -34,7 +35,7 @@ export default function RegisterModal({ isOpen, onClose, defaultEvent }) {
           onClick={onClose}
           aria-label="Close modal"
         >
-          ✕
+          <RetroClose size={18} />
         </button>
 
         <span className="modal-badge">
@@ -43,7 +44,9 @@ export default function RegisterModal({ isOpen, onClose, defaultEvent }) {
 
         {submitted ? (
           <div style={{ textAlign: 'center', padding: '24px 0' }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>🚀</div>
+            <div className="modal-success-icon" style={{ marginBottom: '18px' }}>
+              <RetroRocket size={54} color="#af50ff" />
+            </div>
             <h3 className="modal-title">COSMIC CLEARANCE GRANTED</h3>
             <p className="modal-desc">
               Redirecting you to the official Google Form registration sheet... Safe travels, Stargazer!

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Hyperspeed from './Hyperspeed';
 import SpaceCounter from './SpaceCounter';
 import { FESTIVAL_METADATA } from '../data/eventData';
@@ -6,6 +6,32 @@ import './HeroSection.css';
 
 export default function HeroSection({ onExplore, active = true }) {
   const [isBoosting, setIsBoosting] = useState(false);
+
+  // Dynamic hardware & device profiling to guarantee smooth 60fps+ on all processors
+  const perfProfile = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return { density: 60, poles: 40, dust: 90, glow: 0.5, reflections: 0.4 };
+    }
+    const isMobile = window.innerWidth <= 768 || window.matchMedia?.('(pointer: coarse)').matches;
+    const isLowCore = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+
+    if (isMobile || isLowCore) {
+      return {
+        density: 35,
+        poles: 22,
+        dust: 36,
+        glow: 0.35,
+        reflections: 0.2
+      };
+    }
+    return {
+      density: 65,
+      poles: 45,
+      dust: 100,
+      glow: 0.55,
+      reflections: 0.45
+    };
+  }, []);
 
   const handleWarpBoost = () => {
     setIsBoosting(true);
@@ -41,13 +67,13 @@ export default function HeroSection({ onExplore, active = true }) {
             lanes={2}
             roadWidth={10}
             medianWidth={5}
-            density={70}
+            density={perfProfile.density}
             trailLength={1}
             lightSize={1}
-            poles={50}
-            dust={120}
-            glow={0.6}
-            reflections={0.5}
+            poles={perfProfile.poles}
+            dust={perfProfile.dust}
+            glow={perfProfile.glow}
+            reflections={perfProfile.reflections}
             roadOpacity={0.15}
             steer={0.35}
             tailColors={['#af50ff', '#e74d60', '#ff102a']}

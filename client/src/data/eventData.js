@@ -197,7 +197,7 @@ export const SPONSORS_DATA = [
         foilColor: '#ffffff',
         preset: 'gold',
         category: 'Code Ecosystem',
-        symbol: '🐙'
+        symbol: '◈'
       },
       {
         name: 'Devfolio',
@@ -206,7 +206,7 @@ export const SPONSORS_DATA = [
         foilColor: '#3770ff',
         preset: 'cosmos',
         category: 'Hackathon Partner',
-        symbol: '⚡'
+        symbol: '✦'
       }
     ]
   },
@@ -239,7 +239,7 @@ export const SPONSORS_DATA = [
         foilColor: '#ff6c37',
         preset: 'stars',
         category: 'API Infrastructure',
-        symbol: '🚀'
+        symbol: '▲'
       }
     ]
   },
@@ -263,7 +263,7 @@ export const SPONSORS_DATA = [
         foilColor: '#ffd700',
         preset: 'rainbow',
         category: 'Vitality Partner',
-        symbol: '🐂'
+        symbol: '◆'
       }
     ]
   }

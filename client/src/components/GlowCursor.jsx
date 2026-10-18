@@ -341,7 +341,16 @@ const GlowCursor = ({
     const container = containerRef.current;
     const canvas = canvasRef.current;
     const coarse = window.matchMedia?.('(pointer: coarse)').matches ?? false;
-    if (coarse || !settingsRef.current.enabled) return undefined;
+    const isTouchOnly = window.matchMedia?.('(hover: none)').matches ?? false;
+    const isMobileWidth = (window.innerWidth || 0) <= 768;
+    const hasTouchPoints = (navigator.maxTouchPoints && navigator.maxTouchPoints > 1);
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+
+    // Completely bypass WebGL simulation on mobile touch devices or reduced motion
+    if (coarse || isTouchOnly || (hasTouchPoints && isMobileWidth) || reduceMotion || !settingsRef.current.enabled) {
+      return undefined;
+    }
+
     const gl = canvas?.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,

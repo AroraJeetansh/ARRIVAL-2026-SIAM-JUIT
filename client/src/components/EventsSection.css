@@ -97,23 +97,59 @@
 
 .event-row__meta-item {
   font-family: var(--font-whyte-inktrap-mono, 'JetBrains Mono', monospace);
-  font-size: 12px;
+  font-size: 11.5px;
   letter-spacing: 0.08em;
   color: #f0f0f0;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(247, 249, 250, 0.1);
   padding: 6px 14px;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.event-row__meta-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
 }
 
 .event-row__prize {
   color: #ffd700;
-  background: rgba(255, 215, 0, 0.08);
-  border-color: rgba(255, 215, 0, 0.25);
+  background: rgba(255, 215, 0, 0.06);
+  border-color: rgba(255, 215, 0, 0.28);
   font-weight: 600;
+}
+
+.event-row__prize:hover {
+  background: rgba(255, 215, 0, 0.12);
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.2);
+}
+
+.event-row__schedule {
+  color: #53c2c6;
+  background: rgba(83, 194, 198, 0.06);
+  border-color: rgba(83, 194, 198, 0.25);
+}
+
+.event-row__schedule:hover {
+  background: rgba(83, 194, 198, 0.12);
+  border-color: rgba(83, 194, 198, 0.5);
+  box-shadow: 0 0 16px rgba(83, 194, 198, 0.2);
+}
+
+.event-row__venue {
+  color: #e1bdff;
+  background: rgba(175, 80, 255, 0.06);
+  border-color: rgba(175, 80, 255, 0.25);
+}
+
+.event-row__venue:hover {
+  background: rgba(175, 80, 255, 0.12);
+  border-color: rgba(175, 80, 255, 0.5);
+  box-shadow: 0 0 16px rgba(175, 80, 255, 0.2);
 }
 
 .event-row__summary {
@@ -174,4 +210,41 @@
   color: #ffffff;
   box-shadow: 0 0 25px rgba(175, 80, 255, 0.5);
   transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+  .events-section {
+    padding: 70px 16px;
+  }
+
+  .events-section__list {
+    gap: 56px;
+    margin-top: 36px;
+  }
+
+  .event-row__title {
+    font-size: clamp(24px, 6vw, 32px);
+  }
+
+  .event-row__subtitle {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+
+  .event-row__meta {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .event-row__meta-item {
+    font-size: 11px;
+    padding: 5px 10px;
+    gap: 6px;
+  }
+
+  .event-row__btn-register {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+  }
 }

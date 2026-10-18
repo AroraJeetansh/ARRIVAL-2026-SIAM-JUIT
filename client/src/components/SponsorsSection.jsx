@@ -6,7 +6,7 @@ export default function SponsorsSection() {
   return (
     <section id="sponsors" className="sponsors-section">
       <span className="section-subhead">// ORBITAL PARTNERS</span>
-      <h2 className="section-stamp">O U R &nbsp; S P O N S O R S</h2>
+      <h2 className="section-stamp">OUR SPONSORS</h2>
 
       <div className="sponsors-section__tiers">
         {SPONSORS_DATA.map((tier) => {

@@ -12,6 +12,16 @@
   margin-top: 56px;
 }
 
+@media (max-width: 600px) {
+  .sponsors-section {
+    padding: 70px 16px;
+  }
+  .sponsors-section__tiers {
+    gap: 40px;
+    margin-top: 36px;
+  }
+}
+
 .sponsor-tier {
   display: flex;
   flex-direction: column;
