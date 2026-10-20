@@ -828,6 +828,10 @@ const GlowCursor = ({
       raf = 0;
       if (!alive || !visible || document.hidden) return;
       const s = settingsRef.current;
+      if (s.quality !== 'high' && last && now - last < 33) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
       const dt = last ? Math.min(1 / 30, (now - last) / 1000) : 1 / 60;
       last = now;
       state.time += dt;

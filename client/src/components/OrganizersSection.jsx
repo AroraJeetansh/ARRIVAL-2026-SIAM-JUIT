@@ -1,47 +1,37 @@
-import HoloCard from './HoloCard';
-import { ORGANIZING_TEAM } from '../data/eventData';
+import { CORE_TEAM_MEMBERS } from '../data/eventData';
+import TeamCard from './TeamCard';
 import './OrganizersSection.css';
 
-export default function OrganizersSection() {
+export default function OrganizersSection({ onNavigateToMember }) {
+  const handleCardClick = (member) => {
+    if (onNavigateToMember) {
+      onNavigateToMember(member.id);
+    } else {
+      window.location.hash = `#/team/${member.id}`;
+    }
+  };
+
   return (
-    <section id="team" className="organizers-section">
-      <span className="section-subhead">// MISSION COMMAND</span>
-      <h2 className="section-stamp">THE TEAM BEHIND ARRIVAL</h2>
+    <section id="team" className="organizers-section" aria-label="Meet the Minds Behind ARRIVAL '26">
+      <div className="organizers-section__header">
+        <div className="organizers-section__title-block">
+          <span className="section-subhead">// MISSION ARCHITECTS</span>
+          <h2 className="section-stamp organizers-section__title">Meet the Minds Behind ARRIVAL '26</h2>
+          <p className="organizers-section__subtitle">
+            Every great event has a team of people turning ambitious ideas into reality. Get to know the minds behind ARRIVAL 2026.
+          </p>
+        </div>
+      </div>
 
       <div className="organizers-section__grid">
-        {ORGANIZING_TEAM.map((member) => (
-          <div key={member.name} className="organizer-item">
-            {/* 2nd Card Usage: Organizer portrait in HoloCard */}
-            <div className="organizer-item__card-wrap">
-              <HoloCard
-                image={member.photo}
-                alt={`${member.name} — ${member.role}`}
-                preset={member.preset}
-                foilColor={member.foilColor}
-                intensity={0.82}
-                width={250}
-                radius={16}
-                hoverScale={1.05}
-              />
-            </div>
-
-            {/* Details placed below the card as requested */}
-            <div className="organizer-item__details">
-              <h3 className="organizer-item__name">{member.name}</h3>
-              <p className="organizer-item__role">{member.role}</p>
-              <p className="organizer-item__dept">{member.dept}</p>
-
-              <div className="organizer-item__tags">
-                {member.tags.map((t) => (
-                  <span key={t} className="organizer-item__tag">
-                    {t}
-                  </span>
-                ))}
-              </div>
-
-              <span className="organizer-item__handle">{member.handle}</span>
-            </div>
-          </div>
+        {CORE_TEAM_MEMBERS.map((member, index) => (
+          <TeamCard
+            key={member.id}
+            member={member}
+            featured={index === 0}
+            index={index}
+            onSelectMember={handleCardClick}
+          />
         ))}
       </div>
     </section>

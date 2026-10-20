@@ -39,7 +39,7 @@ uniform float uLightMode;
 
 varying vec2 vUv;
 
-#define NUM_LAYER 3.0
+#define NUM_LAYER 2.0
 #define STAR_COLOR_CUTOFF 0.2
 #define MAT45 mat2(0.7071, -0.7071, 0.7071, 0.7071)
 #define PERIOD 3.0
@@ -240,7 +240,7 @@ export default function Galaxy({
     let program;
 
     function resize() {
-      const scale = window.matchMedia?.('(pointer: coarse)').matches ? 0.4 : 0.55;
+      const scale = window.matchMedia?.('(pointer: coarse)').matches ? 0.28 : 0.38;
       const w = Math.max(1, ctn.offsetWidth || window.innerWidth);
       const h = Math.max(1, ctn.offsetHeight || window.innerHeight);
       renderer.setSize(w * scale, h * scale);
@@ -298,7 +298,7 @@ export default function Galaxy({
       if (disableAnimationRef.current || !pageVisible) return;
 
       animateId = requestAnimationFrame(update);
-      if (t - lastDraw < 33) return;
+      if (t - lastDraw < 48) return;
       lastDraw = t;
 
       program.uniforms.uTime.value = t * 0.001;

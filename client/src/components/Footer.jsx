@@ -2,11 +2,14 @@ import { FESTIVAL_METADATA, FESTIVAL_NAV_LINKS } from '../data/eventData';
 import { RetroHeart } from './RetroIcons';
 import './Footer.css';
 
-export default function Footer({ onOpenRegister }) {
+export default function Footer({ onOpenRegister, onNavigateToHome }) {
   const handleLinkClick = (e, href) => {
-    if (href.startsWith('#')) {
-      e.preventDefault();
-      const target = document.querySelector(href);
+    e.preventDefault();
+    const targetHref = (href === '/team' || href === '#/team' || href === '#team') ? '#team' : href;
+    if (onNavigateToHome) {
+      onNavigateToHome(targetHref);
+    } else {
+      const target = document.querySelector(targetHref);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth' });
       }

@@ -24,7 +24,7 @@ export const FESTIVAL_NAV_LINKS = [
   { label: 'Previous Year', href: '#previous-year' },
   { label: 'Events', href: '#events' },
   { label: 'Sponsors', href: '#sponsors' },
-  { label: 'Organizing Team', href: '#team' }
+  { label: 'Team', href: '#team' }
 ];
 
 export const FESTIVAL_STATS = [
@@ -142,48 +142,185 @@ export const FESTIVAL_EVENTS = [
   }
 ];
 
-export const ORGANIZING_TEAM = [
+export const CORE_TEAM_MEMBERS = [
   {
-    name: 'Aryan Sharma',
-    role: 'Lead Organizer & President',
-    dept: 'SIAM JUIT Student Chapter',
-    photo: '/images/team/lead.jpg',
-    preset: 'cosmos',
-    foilColor: '#af50ff',
-    handle: '@aryansharma',
-    tags: ['Mission Control', 'Leadership']
+    id: 'shomya-vishwakarma',
+    num: '01',
+    name: 'Shomya Vishwakarma',
+    role: 'President',
+    tagline: 'Vision. Leadership. Steering the legacy.',
+    initials: 'SV',
+    accent: '#af50ff',
+    secondary: '#e1bdff',
+    motif: 'orbit',
+    code: 'LEAD-CMD',
+    station: 'Executive Directorate // SIAM JUIT',
+    image: 'https://res.cloudinary.com/dgvfmxzg0/image/upload/v1769074452/Shomya_Vishwakarma_mjhovq.jpg',
+    biography: 'Serving as the President of ARRIVAL 2026, Shomya steers the overarching legacy and strategic vision of the festival. Driven by leadership and forward-looking direction, she aligns teams across creative, technical, and operational domains to turn ambitious ideas into an unforgettable reality.',
+    whatTheyBring: 'Visionary leadership, high-level decision making, and legacy stewardship. Ensuring seamless synergy across all council departments while setting a gold standard for ARRIVAL 2026.',
+    about: 'Serving at the helm of ARRIVAL 2026, Shomya coordinates the grand strategic vision of the festival. Under her leadership, the SIAM JUIT Student Chapter unites technical prowess with cultural dynamism, spearheading 7 flagship expeditions, 24-hour hackathon operations, and cross-university engagement.',
+    focusAreas: ['Strategic Festival Roadmapping', 'Executive Mission Command', 'Inter-Department Synergy', 'Chapter Legacy & Culture'],
+    keyDeliverables: [
+      'Unified vision connecting technical innovation and cultural expeditions',
+      'High-level institutional alignment with university leadership and faculty advisors',
+      'Executive oversight across budget allocations, technical portals, and operations',
+      'Setting historical benchmarks for SIAM JUIT festival participation and impact'
+    ],
+    quote: "ARRIVAL '26 is more than a festival; it's a launchpad for future engineers, innovators, and leaders to test their limits under one cosmic roof."
   },
   {
-    name: 'Ananya Verma',
-    role: 'Technical Lead & Hackathon Director',
-    dept: 'Systems & Architecture',
-    photo: '/images/team/tech.jpg',
-    preset: 'shards',
-    foilColor: '#00e5ff',
-    handle: '@ananya_tech',
-    tags: ['Hackathon Track', 'Infrastructure']
+    id: 'nishit-aggarwal',
+    num: '02',
+    name: 'Nishit Aggarwal',
+    role: 'Vice President',
+    tagline: 'Strategy, problem-solving, and execution master.',
+    initials: 'NA',
+    accent: '#53c2c6',
+    secondary: '#b2f5ff',
+    motif: 'matrix',
+    code: 'STRAT-EXE',
+    station: 'Strategic Command // Operations Matrix',
+    image: 'https://res.cloudinary.com/dgvfmxzg0/image/upload/v1769074448/Nishit_Aggarwal_i6phgc.jpg',
+    biography: 'As Vice President of ARRIVAL 2026, Nishit drives tactical strategy, rapid problem-solving, and end-to-end execution. He works closely with every department to overcome challenges and translate the festival vision into high-impact reality.',
+    whatTheyBring: 'Mastery of strategy, agile problem-solving, and execution velocity. Providing actionable operational frameworks, resolving critical bottlenecks, and keeping festival milestones on schedule.',
+    about: 'Nishit acts as the operational nerve center and tactical strategist for ARRIVAL 2026. From resolving friction points across logistical chains to executing high-priority missions, he bridges vision with flawless on-the-ground performance.',
+    focusAreas: ['Tactical Execution & Action Plans', 'Complex Problem Solving & Crisis Resolution', 'Cross-Team Velocity & Deadlines', 'Sponsorship & Ecosystem Partnerships'],
+    keyDeliverables: [
+      'Operational blueprint for the 24-Hour continuous Hackathon sprint',
+      'Rapid-response troubleshooting framework during live festival hours',
+      'Optimizing event timelines and resource sharing across all seven departments',
+      'Strategic liaising with external partners, sponsors, and student communities'
+    ],
+    quote: "Execution turns ambitious dreams into legendary reality. We don't just plan for success — we engineer every single detail until it works."
   },
   {
-    name: 'Rohan Kapoor',
-    role: 'Creative & Design Director',
-    dept: 'Brand, Media & Aesthetics',
-    photo: '/images/team/design.jpg',
-    preset: 'swirl',
-    foilColor: '#d856bf',
-    handle: '@rohan_creative',
-    tags: ['UI/UX', 'Cosmic Visuals']
+    id: 'harshit-choudhary',
+    num: '03',
+    name: 'Harshit Choudhary',
+    role: 'Secretary',
+    tagline: 'Permissions, administration, and organizational anchor.',
+    initials: 'HC',
+    accent: '#ffd700',
+    secondary: '#fff0a8',
+    motif: 'anchor',
+    code: 'ADMIN-OPS',
+    station: 'Administrative Secretariat // Campus Governance',
+    image: 'https://res.cloudinary.com/dgvfmxzg0/image/upload/v1769088784/Harshit_Choudhary_10000_omkrpb.jpg',
+    biography: 'Serving as Secretary, Harshit acts as the organizational anchor for ARRIVAL 2026. He oversees administrative governance, university permissions, institutional clearances, and official coordination to ensure flawless foundational backing.',
+    whatTheyBring: 'Administrative excellence, university compliance, protocol management, and organizational stability. Securing authorizations and maintaining structured communication throughout the event lifecycle.',
+    about: 'The administrative anchor of ARRIVAL 2026, Harshit oversees institutional protocol, official university sanctions, legal compliance, and formal communication. His governance guarantees that every initiative runs smoothly within the university ecosystem.',
+    focusAreas: ['Official University Clearances', 'Administrative Governance & Compliance', 'Formal Institutional Correspondence', 'Guest & Dignitary Protocol'],
+    keyDeliverables: [
+      'Secured campus-wide venue, lab, and auditorium permits across both fest days',
+      'Formal university documentation, circulars, and departmental clearances',
+      'Coordination with campus security, administration, and IT networking staff',
+      'Archiving official records, minutes, and mission reports for SIAM JUIT'
+    ],
+    quote: "A steadfast foundation makes towering achievements possible. Strong governance ensures our creatives and coders can build without limits."
   },
   {
-    name: 'Ishaan Mehta',
-    role: 'Head of Operations & Logistics',
-    dept: 'Flight Operations & Outreach',
-    photo: '/images/team/ops.jpg',
-    preset: 'gold',
-    foilColor: '#ffd700',
-    handle: '@ishaan_ops',
-    tags: ['Campus Logistics', 'Sponsorship']
+    id: 'jeetansh-arora',
+    num: '04',
+    name: 'Jeetansh Arora',
+    role: 'Treasurer',
+    tagline: 'Calm, composed, and steady financial stewardship.',
+    initials: 'JA',
+    accent: '#00e5ff',
+    secondary: '#8ff4ff',
+    motif: 'prism',
+    code: 'FISCAL-STEWARD',
+    station: 'Financial Treasury // Resource Allocation',
+    image: 'https://res.cloudinary.com/dgvfmxzg0/image/upload/v1769091099/873a90ff-22da-4929-923a-673675a917d7_rrfouu.jpg',
+    biography: 'As Treasurer, Jeetansh provides calm, composed, and steady financial stewardship for ARRIVAL 2026. He manages budget allocation, fiscal discipline, and economic resources to power every aspect of the festival.',
+    whatTheyBring: 'Steady financial stewardship, budget architecture, transparent resource management, and fiscal reliability. Ensuring all seven expeditions, prize pools, and production needs are soundly financed.',
+    about: 'Calm under pressure and meticulous in execution, Jeetansh manages the financial lifeblood of ARRIVAL 2026. He directs budget modeling, expense auditing, and sponsor fund allocation to ensure fiscal resilience and prize pool guarantees.',
+    focusAreas: ['Festival Budget Architecture & Modeling', 'Prize Pool Disbursement & Integrity', 'Procurement & Logistics Accounting', 'Sponsor Fund Auditing & Transparency'],
+    keyDeliverables: [
+      'Strategic allocation of the flagship ₹18,000 Hackathon Prize Pool',
+      'Procurement management for hardware, staging, sound, and participant kits',
+      'Live expense reconciliation and transparent account auditing throughout the fest',
+      'Sponsor ROI reporting and economic resource optimization across all tracks'
+    ],
+    quote: "Precision in numbers creates confidence in action. Steady financial stewardship turns visionary ideas into a well-funded, world-class experience."
+  },
+  {
+    id: 'shivani-vishvkarma',
+    num: '05',
+    name: 'Shivani Vishvkarma',
+    role: 'Technical Head',
+    tagline: 'Architecting platforms, code, and digital experiences.',
+    initials: 'SV',
+    accent: '#d856bf',
+    secondary: '#ff8de2',
+    motif: 'circuit',
+    code: 'SYS-ARCH',
+    station: 'Digital Architecture // Technical Operations',
+    image: 'https://res.cloudinary.com/dgvfmxzg0/image/upload/v1769074453/Shivani_weondn.jpg',
+    biography: 'Heading the technical wing of ARRIVAL 2026, Shivani architects the digital platforms, software infrastructure, and web experiences that bring the fest to life. She unites robust engineering with modern frontend design.',
+    whatTheyBring: 'Digital platform architecture, web systems development, and immersive tech execution. Delivering the responsive festival web presence, 24-hour hackathon systems, and technical workflows.',
+    about: 'Leading the digital frontier, Shivani architects the software infrastructure that powers ARRIVAL 2026. From the 3D WebGL web portal to real-time hackathon judging engines and Discord cryptographic quest systems, her work defines the digital presence.',
+    focusAreas: ['Interactive WebGL & Frontend Engineering', 'Hackathon Server Infrastructure & Automated Evaluation', 'Discord Cipher Bot & Arcana Tech Stack', 'Data Pipelines, Scalability & Platform Security'],
+    keyDeliverables: [
+      'Arrival 2026 responsive portal with dynamic 3D visualizers and holo-effects',
+      'High-availability submission portal for 24-hour hackathon teams and judges',
+      'Custom puzzle encryption bot for Arcana Mystery Quest across Discord & IRL',
+      'Real-time telemetry and schedule synchronization dashboard for attendees'
+    ],
+    quote: "Code is our canvas. Through robust architecture and interactive design, we build experiences that feel like stepping into the future."
+  },
+  {
+    id: 'abhinandan-sharma',
+    num: '06',
+    name: 'Abhinandan Sharma',
+    role: 'Public Relations Head',
+    tagline: 'Outreach, media strategy, and brand voice.',
+    initials: 'AS',
+    accent: '#ff5e7e',
+    secondary: '#ffb3c1',
+    motif: 'signal',
+    code: 'PR-OUTREACH',
+    station: 'Communications Command // Brand & Media',
+    image: 'https://res.cloudinary.com/dgvfmxzg0/image/upload/v1786359842/IMG-20260222-WA000267.jpg_puz6is.jpg',
+    biography: 'As Public Relations Head, Abhinandan shapes the brand voice, media strategy, and external outreach of ARRIVAL 2026. He connects the festival with student communities, media outlets, and participants across institutions.',
+    whatTheyBring: 'Omnichannel outreach, strategic media communications, and authentic brand voice. Expanding participant engagement, crafting compelling announcements, and building festival buzz.',
+    about: 'The communicative spark of ARRIVAL 2026, Abhinandan drives the narrative, brand identity, and audience reach across universities and digital communities. He orchestrates multi-platform PR campaigns, influencer outreach, and press relations.',
+    focusAreas: ['Omnichannel Public Relations Strategy', 'Brand Voice & Social Campaign Storytelling', 'Inter-College Ambassador Network', 'Media Relations, Press Releases & Event Hype'],
+    keyDeliverables: [
+      'Campus outreach driving 500+ participants from universities across North India',
+      'Engaging promotional teaser releases and storytelling campaigns across socials',
+      'Official event coverage, livestream coordination, and photography teams',
+      'Press releases and public announcements across tech communities and platforms'
+    ],
+    quote: "A great idea only shines when the world hears its story. We craft the voice that turns an event into an unforgettable cultural movement."
+  },
+  {
+    id: 'kartik-malik',
+    num: '07',
+    name: 'Kartik Malik',
+    role: 'Operations Head',
+    tagline: 'Logistics, venue control, and event execution.',
+    initials: 'KM',
+    accent: '#38ef7d',
+    secondary: '#a8ff78',
+    motif: 'vector',
+    code: 'VENUE-LOG',
+    station: 'Tactical Venue Operations // Ground Command',
+    image: 'https://res.cloudinary.com/dgvfmxzg0/image/upload/v1769074447/Kartik_dpuzsk.jpg',
+    biography: 'Leading festival operations, Kartik commands on-ground logistics, venue control, and event execution for ARRIVAL 2026. He ensures facilities, timing, stage environments, and live operations run like clockwork.',
+    whatTheyBring: 'On-ground logistics, venue control, real-time schedule management, and event flow execution. Coordinating physical infrastructure and live event operations across the campus.',
+    about: 'The ground commander of ARRIVAL 2026, Kartik oversees physical infrastructure, stage operations, security protocols, and crowd logistics across all JUIT venues. He ensures every competition, talk, and concert begins with pinpoint punctuality.',
+    focusAreas: ['Campus-Wide Venue Management & Layouts', 'Audio/Visual Engineering & Stage Lighting', 'Real-Time Schedule Execution & Flow Control', 'Crowd Safety, Participant Hospitality & Kits'],
+    keyDeliverables: [
+      'Hardware preparation and high-bandwidth networking of Main Computing Labs',
+      'Open Cafeteria amphitheater transformation for Jamming Night under night sky',
+      'Esports gaming arena configuration with low-latency rigs for Minecraft 2v2',
+      '24/7 on-ground dispatch and crisis control during the entire festival lifecycle'
+    ],
+    quote: "The best logistics are the ones that work so seamlessly that everyone simply experiences the magic. Flawless operations make brilliance possible."
   }
 ];
+
+export const ORGANIZING_TEAM = CORE_TEAM_MEMBERS;
 
 export const SPONSORS_DATA = [
   {

@@ -10,13 +10,102 @@ import OrganizersSection from './components/OrganizersSection';
 import SponsorsSection from './components/SponsorsSection';
 import Footer from './components/Footer';
 import RegisterModal from './components/RegisterModal';
+import MemberProfilePage from './components/MemberProfilePage';
+
+// Parse route from URL hash or pathname
+const parseRouteFromLocation = () => {
+  const hash = window.location.hash || '';
+  const pathname = window.location.pathname || '';
+
+  // Check for individual member profile: #/team/:memberId or /team/:memberId
+  const memberHashMatch = hash.match(/^#\/?team\/([a-zA-Z0-9-_]+)$/);
+  if (memberHashMatch && memberHashMatch[1]) {
+    return { route: 'member', memberId: memberHashMatch[1] };
+  }
+  const memberPathMatch = pathname.match(/^\/team\/([a-zA-Z0-9-_]+)$/);
+  if (memberPathMatch && memberPathMatch[1]) {
+    return { route: 'member', memberId: memberPathMatch[1] };
+  }
+
+  // /team or #/team is an anchor to the organizers section on the homepage, not a separate page
+  return { route: 'home', memberId: '' };
+};
 
 export default function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState('');
   const [pastHero, setPastHero] = useState(false);
   const [isBlackout, setIsBlackout] = useState(false);
+  const [routeState, setRouteState] = useState(parseRouteFromLocation);
   const isTransitioningRef = useRef(false);
+
+  // Sync route with browser history / hash changes
+  useEffect(() => {
+    const handleLocationSync = () => {
+      const hash = window.location.hash || '';
+      const pathname = window.location.pathname || '';
+
+      // If user navigated to /team or #/team, scroll to #team on the homepage
+      if (hash === '#/team' || hash === '#team' || pathname === '/team') {
+        setRouteState({ route: 'home', memberId: '' });
+        setPastHero(true);
+        setTimeout(() => {
+          const el = document.querySelector('#team');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 60);
+        return;
+      }
+
+      const next = parseRouteFromLocation();
+      setRouteState(next);
+      if (next.route !== 'home') {
+        setPastHero(true);
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+    };
+
+    window.addEventListener('hashchange', handleLocationSync);
+    window.addEventListener('popstate', handleLocationSync);
+
+    // Initial check if opened directly with #team or /team
+    const hash = window.location.hash || '';
+    const pathname = window.location.pathname || '';
+    if (hash === '#/team' || hash === '#team' || pathname === '/team') {
+      setPastHero(true);
+      setTimeout(() => {
+        const el = document.querySelector('#team');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+
+    return () => {
+      window.removeEventListener('hashchange', handleLocationSync);
+      window.removeEventListener('popstate', handleLocationSync);
+    };
+  }, []);
+
+  const handleNavigateToMember = useCallback((memberId) => {
+    window.location.hash = `#/team/${memberId}`;
+    setRouteState({ route: 'member', memberId });
+    setPastHero(true);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
+  const handleNavigateToHome = useCallback((targetId = '') => {
+    setRouteState({ route: 'home', memberId: '' });
+    if (targetId && targetId !== '#hero' && targetId !== '#') {
+      window.location.hash = targetId;
+      setPastHero(true);
+      setTimeout(() => {
+        const el = document.querySelector(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 60);
+    } else {
+      window.location.hash = '';
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      setPastHero(false);
+    }
+  }, []);
 
   // Smooth cinematic blackout gate between Home (Hyperspeed) and content (Galaxy)
   const performBlackoutTransition = useCallback((targetId, toPastHero) => {
@@ -49,6 +138,8 @@ export default function App() {
 
   // Monitor scroll gestures on the home screen to trigger the cinematic blackout
   useEffect(() => {
+    if (routeState.route !== 'home') return;
+
     let touchStartY = 0;
 
     const handleWheel = (e) => {
@@ -136,7 +227,7 @@ export default function App() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [performBlackoutTransition]);
+  }, [routeState.route, performBlackoutTransition]);
 
   const handleOpenRegister = (eventTitle = '') => {
     setSelectedEvent(eventTitle || '');
@@ -156,7 +247,7 @@ export default function App() {
       trailWidth={2.8}
       theme="dark"
       clickBurst
-      quality="medium"
+      quality="low"
       maxDevicePixelRatio={1}
     >
       <div className="app-container">
@@ -167,67 +258,109 @@ export default function App() {
         />
 
         {/* Floating Top-Right Controls: Transparent Menu & Glowing Neon Register Button */}
-        <FloatingNav onOpenRegister={() => handleOpenRegister()} />
-
-        {/* 1. Hero Section with Hyperspeed face component, Arrival '26 title, and Space Counter */}
-        <HeroSection
-          active={!pastHero}
-          onExplore={() => performBlackoutTransition('#about', true)}
+        <FloatingNav
+          onOpenRegister={() => handleOpenRegister()}
+          onNavigateToHome={handleNavigateToHome}
+          currentRoute={routeState.route}
         />
 
-        {/* Post-Hero Container with WebGL Galaxy Ambient Background */}
-        <div className="post-hero-container">
-          <div
-            className={`post-hero-galaxy-bg ${pastHero ? 'post-hero-galaxy-bg--active' : ''}`}
-            aria-hidden="true"
-          >
-            {pastHero ? (
+        {routeState.route === 'member' ? (
+          /* Dedicated Individual Member Profile Page */
+          <div className="post-hero-container">
+            <div className="post-hero-galaxy-bg post-hero-galaxy-bg--active" aria-hidden="true">
               <Galaxy
-                mouseRepulsion={true}
-                mouseInteraction={true}
-                density={1.15}
-                glowIntensity={0.5}
+                mouseRepulsion={false}
+                mouseInteraction={false}
+                density={0.9}
+                glowIntensity={0.42}
                 saturation={0.3}
                 hueShift={240}
-                twinkleIntensity={0.6}
-                speed={0.8}
-                starSpeed={0.5}
-                rotationSpeed={0.06}
+                twinkleIntensity={0.4}
+                speed={0.55}
+                starSpeed={0.4}
+                rotationSpeed={0.04}
                 transparent={true}
               />
-            ) : null}
+            </div>
+
+            <div className="post-hero-content">
+              <MemberProfilePage
+                memberId={routeState.memberId}
+                onNavigateToHome={handleNavigateToHome}
+                onNavigateToMember={handleNavigateToMember}
+                onOpenRegister={() => handleOpenRegister()}
+              />
+            </div>
           </div>
+        ) : (
+          /* Main Festival Landing Page */
+          <>
+            {/* 1. Hero Section with Hyperspeed face component, Arrival '26 title, and Space Counter */}
+            <HeroSection
+              active={!pastHero}
+              onExplore={() => performBlackoutTransition('#about', true)}
+            />
 
-          <div className="post-hero-content">
-            <div className="hairline-divider" />
+            {/* Post-Hero Container with WebGL Galaxy Ambient Background */}
+            <div className="post-hero-container">
+              <div
+                className={`post-hero-galaxy-bg ${pastHero ? 'post-hero-galaxy-bg--active' : ''}`}
+                aria-hidden="true"
+              >
+                {pastHero ? (
+                  <Galaxy
+                    mouseRepulsion={false}
+                    mouseInteraction={false}
+                    density={0.9}
+                    glowIntensity={0.42}
+                    saturation={0.3}
+                    hueShift={240}
+                    twinkleIntensity={0.4}
+                    speed={0.55}
+                    starSpeed={0.4}
+                    rotationSpeed={0.04}
+                    transparent={true}
+                  />
+                ) : null}
+              </div>
 
-            {/* 2. About Arrival */}
-            <AboutSection />
+              <div className="post-hero-content">
+                <div className="hairline-divider" />
 
-            <div className="hairline-divider" />
+                {/* 2. About Arrival */}
+                <AboutSection />
 
-            {/* 3. Previous Year Highlights */}
-            <PreviousYearSection />
+                <div className="hairline-divider" />
 
-            <div className="hairline-divider" />
+                {/* 3. Previous Year Highlights */}
+                <PreviousYearSection />
 
-            {/* 4. Events at Arrival '26 — 1st Card Usage: Alternating poster HoloCard & event description */}
-            <EventsSection onOpenRegister={handleOpenRegister} />
+                <div className="hairline-divider" />
 
-            <div className="hairline-divider" />
+                {/* 4. Events at Arrival '26 */}
+                <EventsSection onOpenRegister={handleOpenRegister} />
 
-            {/* 5. Organizing Team — 2nd Card Usage: Organizers portrait HoloCard with details below */}
-            <OrganizersSection />
+                <div className="hairline-divider" />
 
-            <div className="hairline-divider" />
+                {/* 5. Meet the Minds Behind ARRIVAL '26 — Interactive Profile Cards */}
+                <OrganizersSection
+                  onNavigateToMember={handleNavigateToMember}
+                />
 
-            {/* 6. Sponsors — 3rd Card Usage: Tiered sponsor holographic badges */}
-            <SponsorsSection />
+                <div className="hairline-divider" />
 
-            {/* 7. Coordinate Footer */}
-            <Footer onOpenRegister={() => handleOpenRegister()} />
-          </div>
-        </div>
+                {/* 6. Sponsors */}
+                <SponsorsSection />
+
+                {/* 7. Coordinate Footer */}
+                <Footer
+                  onOpenRegister={() => handleOpenRegister()}
+                  onNavigateToHome={handleNavigateToHome}
+                />
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Registration Modal */}
         <RegisterModal

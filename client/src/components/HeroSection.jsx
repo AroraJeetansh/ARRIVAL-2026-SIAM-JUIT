@@ -17,19 +17,19 @@ export default function HeroSection({ onExplore, active = true }) {
 
     if (isMobile || isLowCore) {
       return {
-        density: 35,
-        poles: 22,
-        dust: 36,
-        glow: 0.35,
-        reflections: 0.2
+        density: 28,
+        poles: 16,
+        dust: 24,
+        glow: 0.28,
+        reflections: 0.12
       };
     }
     return {
-      density: 65,
-      poles: 45,
-      dust: 100,
-      glow: 0.55,
-      reflections: 0.45
+      density: 48,
+      poles: 32,
+      dust: 70,
+      glow: 0.42,
+      reflections: 0.3
     };
   }, []);
 

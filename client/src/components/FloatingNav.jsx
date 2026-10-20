@@ -3,7 +3,7 @@ import { FESTIVAL_METADATA, FESTIVAL_NAV_LINKS } from '../data/eventData';
 import { RetroBolt, RetroClose } from './RetroIcons';
 import './FloatingNav.css';
 
-export default function FloatingNav({ onOpenRegister }) {
+export default function FloatingNav({ onOpenRegister, onNavigateToTeam, onNavigateToHome, currentRoute = 'home' }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Close menu on Escape key
@@ -30,7 +30,20 @@ export default function FloatingNav({ onOpenRegister }) {
   const handleLinkClick = (e, href) => {
     e.preventDefault();
     setMenuOpen(false);
-    const target = document.querySelector(href);
+
+    // Normalize /team or #/team to #team to scroll to the organizers section on the homepage
+    const targetHref = (href === '/team' || href === '#/team' || href === '#team') ? '#team' : href;
+
+    if (currentRoute === 'member') {
+      if (onNavigateToHome) {
+        onNavigateToHome(targetHref);
+      } else {
+        window.location.hash = targetHref;
+      }
+      return;
+    }
+
+    const target = document.querySelector(targetHref);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
