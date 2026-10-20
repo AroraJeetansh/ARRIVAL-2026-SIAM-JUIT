@@ -320,103 +320,50 @@ export const CORE_TEAM_MEMBERS = [
   }
 ];
 
-export const ORGANIZING_TEAM = CORE_TEAM_MEMBERS;
-
 export const SPONSORS_DATA = [
   {
-    tier: 'ALPHA PARTNERS',
-    subtitle: 'Cosmic Title Collaborators',
+    tier: 'TECH SPONSOR',
+    subtitle: 'Powering innovation',
     items: [
       {
-        name: 'GitHub',
-        tagline: 'Developer Ecosystem & Student Pack',
-        cardImage: '/images/sponsors/github.svg',
-        foilColor: '#ffffff',
-        preset: 'gold',
-        category: 'Code Ecosystem',
-        symbol: '◈'
+        name: 'Studojo',
+        tagline: 'Official Technology Partner',
+        cardImage: 'https://res.cloudinary.com/dgvfmxzg0/image/upload/v1792526985/ChatGPT_Image_Oct_21_2026_01_39_28_AM_idddv7.png',
+        category: 'Technology Partner'
+      }
+    ],
+  },
+  {
+    tier: 'FOOD SPONSORS',
+    subtitle: 'Fuel for the ARRIVAL experience',
+    items: [
+      {
+        name: 'Food Sponsor 1',
+        tagline: 'Official Food Partner',
+        cardImage: '/images/sponsors/food1.png',
+        category: 'Food Partner'
       },
       {
-        name: 'Devfolio',
-        tagline: 'India’s Flagship Hackathon Platform',
-        cardImage: '/images/sponsors/devfolio.svg',
-        foilColor: '#3770ff',
-        preset: 'cosmos',
-        category: 'Hackathon Partner',
-        symbol: '✦'
+        name: 'Food Sponsor 2',
+        tagline: 'Official Food Partner',
+        cardImage: '/images/sponsors/food2.png',
+        category: 'Food Partner'
       }
     ]
   },
-  {
-    tier: 'NEBULA PARTNERS',
-    subtitle: 'Cloud, API & Web3 Infrastructure',
-    items: [
-      {
-        name: 'Polygon',
-        tagline: 'Scalable Ethereum Web3 Network',
-        cardImage: '/images/sponsors/polygon.svg',
-        foilColor: '#8247e5',
-        preset: 'shards',
-        category: 'Web3 Protocol',
-        symbol: '⬡'
-      },
-      {
-        name: 'JetBrains',
-        tagline: 'Professional Developer IDEs',
-        cardImage: '/images/sponsors/jetbrains.svg',
-        foilColor: '#f7f9fa',
-        preset: 'bursts',
-        category: 'Tooling Partner',
-        symbol: '❖'
-      },
-      {
-        name: 'Postman',
-        tagline: 'Leading Global API Platform',
-        cardImage: '/images/sponsors/postman.svg',
-        foilColor: '#ff6c37',
-        preset: 'stars',
-        category: 'API Infrastructure',
-        symbol: '▲'
-      }
-    ]
-  },
-  {
-    tier: 'ORBIT COMMUNITY',
-    subtitle: 'Deployment & Energy Fuel',
-    items: [
-      {
-        name: 'Vercel',
-        tagline: 'Edge Network & Frontend Cloud',
-        cardImage: '/images/sponsors/vercel.svg',
-        foilColor: '#ffffff',
-        preset: 'cosmos',
-        category: 'Edge Compute',
-        symbol: '▲'
-      },
-      {
-        name: 'Red Bull',
-        tagline: 'Energy Fuel for 24-Hour Hackers',
-        cardImage: '/images/sponsors/redbull.svg',
-        foilColor: '#ffd700',
-        preset: 'rainbow',
-        category: 'Vitality Partner',
-        symbol: '◆'
-      }
-    ]
-  }
 ];
 
 export const PREVIOUS_YEAR_PHOTOS = [
   {
     title: 'The 24-Hour Midnight Sprint',
     desc: 'Over 120 developers relentlessly building and innovating through the night in the computing halls.',
-    src: '/images/gallery/hackathon.jpg',
+    src: 'https://res.cloudinary.com/dgvfmxzg0/image/upload/v1776596222/hackathon_dg93b8.jpg',
     tag: 'ARRIVAL ’24 // HACKATHON ARENA'
   },
   {
     title: 'The Amphitheater Symphony',
     desc: 'Over 600 students gathered at the Open Cafeteria under the night sky for acoustic harmonies.',
-    src: '/images/gallery/stage.jpg',
+    src: 'https://res.cloudinary.com/dgvfmxzg0/image/upload/v1792520518/IMG_0573_k67wxc.jpg',
     tag: 'ARRIVAL ’24 // CONCERT NIGHT'
   }
 ];

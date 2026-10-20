@@ -71,7 +71,23 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  transition: transform 0.3s ease;
+}
+
+.sponsor-logo-card {
+  width: 280px;
+  max-width: 100%;
+  aspect-ratio: 63 / 88;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0a0a0f;
+  border: 1px solid rgba(247, 249, 250, 0.12);
+}
+
+.sponsor-logo-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .sponsor-card-item__info {

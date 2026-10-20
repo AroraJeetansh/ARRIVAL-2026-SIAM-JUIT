@@ -1,7 +1,8 @@
-import HoloCard from './HoloCard';
 import { FESTIVAL_EVENTS } from '../data/eventData';
 import { RetroTrophy, RetroChrono, RetroBeacon, RetroArrow } from './RetroIcons';
 import './EventsSection.css';
+
+const NO_REGISTRATION = ['speaker', 'resume'];
 
 export default function EventsSection({ onOpenRegister }) {
   return (
@@ -12,24 +13,25 @@ export default function EventsSection({ onOpenRegister }) {
       <div className="events-section__list">
         {FESTIVAL_EVENTS.map((event, index) => {
           const isReversed = index % 2 === 1;
+          const needsRegistration = !NO_REGISTRATION.some((k) =>
+          event.title.toLowerCase().includes(k)
+          );
 
           return (
             <div
               key={event.id}
               className={`event-row${isReversed ? ' event-row--reverse' : ''}`}
             >
-              {/* 1st Card Usage: Event Poster in Holographic Shader Card */}
               <div className="event-row__card-col">
-                <HoloCard
-                  image={event.poster}
-                  alt={`${event.title} Poster`}
-                  preset={event.preset}
-                  foilColor={event.foilColor}
-                  intensity={0.88}
-                  glare={0.55}
-                  width={320}
-                  radius={16}
-                />
+                <div className="event-poster">
+                  <img
+                    src={event.poster}
+                    alt={`${event.title} Poster`}
+                    className="event-poster__img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
               </div>
 
               {/* Event Description & Details */}
@@ -64,14 +66,24 @@ export default function EventsSection({ onOpenRegister }) {
                   ))}
                 </div>
 
-                <button
-                  type="button"
-                  className="event-row__btn-register"
-                  onClick={() => onOpenRegister(event.title)}
-                >
-                  <span>Register for {event.title}</span>
-                  <RetroArrow size={14} className="event-row__btn-arrow" />
-                </button>
+                              <div className="event-row__badges">
+                  {event.badges.map((b) => (
+                    <span key={b} className="event-row__badge">
+                      #{b}
+                    </span>
+                  ))}
+                </div>
+                {/* ⬇ REPLACE the old <button> with this */}
+                {needsRegistration && (
+                  <button
+                    type="button"
+                    className="event-row__btn-register"
+                    onClick={() => onOpenRegister(event.title)}
+                  >
+                    <span>Register for {event.title}</span>
+                    <RetroArrow size={14} className="event-row__btn-arrow" />
+                  </button>
+                )}
               </div>
             </div>
           );

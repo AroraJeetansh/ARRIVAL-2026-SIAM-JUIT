@@ -31,6 +31,13 @@ export default function AboutSection() {
               <span className="stat-card__desc">{stat.desc}</span>
             </div>
           ))}
+          <a
+            className="about-section__brochure"
+            href="https://res.cloudinary.com/dgvfmxzg0/image/upload/fl_attachment/v1792518292/ARRIVAL_Brochure___erjvn4.pdf"
+            download="ARRIVAL_Brochure.pdf"
+          >
+            Download Brochure
+          </a>
         </div>
       </div>
     </section>
